@@ -1,0 +1,45 @@
+{
+    "name": "pxt-hummingbird-bit",
+    "version": "0.0.5",
+    "description": "",
+    "dependencies": {
+        "core": "*",
+        "radio": "*"
+    },
+    "files": [
+        "README.md",
+        "main.ts",
+        "custom.ts",
+        "_locales/ar/pxt-hummingbird-bit-strings.json",
+        "_locales/ca/pxt-hummingbird-bit-strings.json",
+        "_locales/da/pxt-hummingbird-bit-strings.json",
+        "_locales/de/pxt-hummingbird-bit-strings.json",
+        "_locales/en/pxt-hummingbird-bit-strings.json",
+        "_locales/es/pxt-hummingbird-bit-strings.json",
+        "_locales/fr/pxt-hummingbird-bit-strings.json",
+        "_locales/he/pxt-hummingbird-bit-strings.json",
+        "_locales/ko/pxt-hummingbird-bit-strings.json",
+        "_locales/nl/pxt-hummingbird-bit-strings.json",
+        "_locales/pt/pxt-hummingbird-bit-strings.json",
+        "_locales/zh-cn/pxt-hummingbird-bit-strings.json",
+        "_locales/zh-tw/pxt-hummingbird-bit-strings.json",
+        "_locales/ar/pxt-hummingbird-bit-jsdoc-strings.json",
+        "_locales/ca/pxt-hummingbird-bit-jsdoc-strings.json",
+        "_locales/da/pxt-hummingbird-bit-jsdoc-strings.json",
+        "_locales/de/pxt-hummingbird-bit-jsdoc-strings.json",
+        "_locales/en/pxt-hummingbird-bit-jsdoc-strings.json",
+        "_locales/es/pxt-hummingbird-bit-jsdoc-strings.json",
+        "_locales/fr/pxt-hummingbird-bit-jsdoc-strings.json",
+        "_locales/he/pxt-hummingbird-bit-jsdoc-strings.json",
+        "_locales/ko/pxt-hummingbird-bit-jsdoc-strings.json",
+        "_locales/nl/pxt-hummingbird-bit-jsdoc-strings.json",
+        "_locales/pt/pxt-hummingbird-bit-jsdoc-strings.json",
+        "_locales/zh-cn/pxt-hummingbird-bit-jsdoc-strings.json",
+        "_locales/zh-tw/pxt-hummingbird-bit-jsdoc-strings.json"
+    ],
+    "testFiles": [
+        "test.ts"
+    ],
+    "public": false,
+    "installedVersion": "workspace:24635ecc-d12b-40fa-5781-0d32152c3191"
+}
