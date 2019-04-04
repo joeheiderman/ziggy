@@ -244,5 +244,13 @@ namespace finch {
       sendMotor(l_speed, 0, r_speed, 0)
     }
 
+    /**
+     * Stops the finch motors
+     */
+    //% weight=28 blockId="stopMotors" block="Finch Stop"
+    export function stopMotors() : void {
+      sendMotor(0, 0, 0, 0)
+    }
+
 
 }
