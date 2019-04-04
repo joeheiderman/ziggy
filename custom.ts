@@ -75,5 +75,59 @@ namespace finch {
         pins.analogWritePin(AnalogPin.P8, 0)
     }
 
+    /**
+     * Sets the tri-color LED in the beak to the color specified by red, green, and blue brightness values. The values range from 0% to 100%.
+     * @param red the % brightness of the red LED element [0-100]
+     * @param green the % brightness of the green LED element [0-100]
+     * @param blue the % brightness of the blue LED element [0-100]
+     */
+    //% weight=29 blockId="setBeak" block="Finch Beak Red %Red| Green %Green| Blue %Blue|"
+    //% Red.min=0 Red.max=100
+    //% Green.min=0 Green.max=100
+    //% Blue.min=0 Blue.max=100
+    export function setBeak(red: number = 50, green: number = 0, blue: number = 50): void {
+        let timeout = 0
+        while (!readyToSend && timeout < 25) {
+            basic.pause(10)
+            timeout++;
+        }
+        if (readyToSend) {
+
+            if (red > 100)
+                red = 100
+            if (red < 0)
+                red = 0
+            if (green > 100)
+                green = 100
+            if (green < 0)
+                green = 0
+            if (blue > 100)
+                blue = 100
+            if (blue < 0)
+                blue = 0
+
+            let port_val = 0xD0
+            red = red * 255 / 100
+            green = green * 255 / 100
+            blue = blue * 255 / 100
+
+            while (!readyToSend); // Wait for other functions in other threads
+            readyToSend = false
+            control.waitMicros(waitTime_Initial)
+            pins.digitalWritePin(DigitalPin.P16, 0)
+            control.waitMicros(waitTime_1)
+            pins.spiWrite(port_val)
+            control.waitMicros(waitTime_2)
+            pins.spiWrite(red)
+            control.waitMicros(waitTime_2)
+            pins.spiWrite(green)
+            control.waitMicros(waitTime_2)
+            pins.spiWrite(blue)
+            control.waitMicros(waitTime_1)
+            pins.digitalWritePin(DigitalPin.P16, 1)
+            //control.waitMicros(1000)
+            readyToSend = true
+        }
+    }
 
 }
