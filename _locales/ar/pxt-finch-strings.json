@@ -1,0 +1,14 @@
+{
+    "finch.startFinch|block": "\u202Bتشغيل الروبوت (هامنج بيرد)\u202C",
+    "finch.setTriLED|block": "\u202BFinch ضوء الصمام الثلاثي \u202E%port_num| R %Red| G %Green| B\u202C\u202C%Blue",
+    "finch.setLED|block": "\u202BFinch ضوء \u202E%port_num| %intensity|\u202C\u202C",
+    "finch.setPositionServo|block": "\u202BFinch موقف محرك سيرفو المؤازر \u202E%port_num| %angle| °\u202C\u202C",
+    "finch.setRotationServo|block": "\u202BFinch فتحة دوران المحرك المؤازر \u202E%port_num| %speed| \\%\u202C\u202C",
+    "finch.getSensor|block": "\u202BFinch \u202E%port_num| %sensorType|\u202C\u202C",
+    "SensorType.Light|block": "ضوء",
+    "SensorType.Distance|block": "مسافه",
+    "SensorType.Dial|block": "دوار",
+    "SensorType.Sound|block": "الصوت",
+    "SensorType.Other|block": "أخرى",
+    "finch.getBattery|block": "\u202BFinch البطارية\u202C"
+}

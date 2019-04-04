@@ -1,9 +1,0 @@
-{
-  "hummingbird.startHummingbird": "Dit blok is vereist voor elk Hummingbird-programma.",
-  "hummingbird.setLED": "Stelt een LED op poort 1, 2 of 3 in op een helderheidswaarde van 0% tot 100%.",
-  "hummingbird.setTriLED": "Stelt een RGB-LED op poort 1 of 2 in op de kleur die wordt aangegeven door de rood, groen en blauwe helderheidswaarden. De waarden lopen van 0% tot 100%.",
-  "hummingbird.setPositionServo": "Stelt een positie-servo op poort 1, 2, 3 of 4 in op een hoek van 0 ° tot 180 °.",
-  "hummingbird.setRotationServo": "Stelt een draai-servo op poort 1, 2, 3 of 4 in op een snelheid van -100% tot 100%.",
-  "hummingbird.getSensor": "Leest de waarde van de sensor op poort 1, 2 of 3. Lezingen voor de afstandssensor worden gegeven in cm. Alle andere meetwaarden variëren van 0 tot 100.",
-  "hummingbird.getBattery": "Leest de waarde van de batterij in milliVolts. Mogelijk begint u vreemd gedrag te zien als de waarde lager is dan 4630 mV."
-}

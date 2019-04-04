@@ -1,9 +1,0 @@
-{
-  "hummingbird.startHummingbird": "Denne blok er påkrævet for alle Hummingbird programmer.",
-  "hummingbird.setLED": "Indstiller lysintensiteten på en enkelt LED farve på indgang 1, 2 eller 3 til en værdi fra 0% til 100%.",
-  "hummingbird.setTriLED": "Indstiller en tri-color LED på indgang 1 eller 2 til den farve, der bestemmes af værdierne ud fra rød, grøn og blå. Værdierne går fra 0% til 100%.",
-  "hummingbird.setPositionServo": "Indstiller en positionsservo på indgang 1, 2, 3 eller 4 og en vinkel fra 0° til 180°.",
-  "hummingbird.setRotationServo": "Indstiller en rotationsservo på indgang 1, 2, 3 eller 4 til en rotationshastighed fra -100% til 100%.",
-  "hummingbird.getSensor": "Læser værdien af sensoren på indgang 1, 2 eller 3. Afstandssensoren er angivet i centimeter. Alt andet er angivet fra 0 til 100 (uden enheder).",
-  "hummingbird.getBattery": "Læser værdien af batteriet i milliVolt. Du vil muligvis se en underlig opførsel, hvis værdien kommer under 4630 mV."
-}

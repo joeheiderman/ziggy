@@ -1,9 +1,0 @@
-{
-  "hummingbird.startHummingbird": "This block is required for every Hummingbird program.",
-  "hummingbird.setLED": "Sets a single color LED on port 1, 2, or 3 to a brightness value from 0% to 100%.",
-  "hummingbird.setTriLED": "Sets a tri-color LED on port 1 or 2 to the color specified by red, green, and blue brightness values. The values range from 0% to 100%.",
-  "hummingbird.setPositionServo": "Sets a position servo on port 1, 2, 3, or 4 to an angle from 0° to 180°.",
-  "hummingbird.setRotationServo": "Sets a rotation servo on port 1, 2, 3, or 4 to a rotation speed from -100% to 100%.",
-  "hummingbird.getSensor": "Reads the value of the sensor on port 1, 2, or 3. Readings for the distance sensor are given in cm. All other readings range from 0 to 100 (no units).",
-  "hummingbird.getBattery": "Reads the value of the battery in milliVolts. You may start to see strange behavior when the value is below 4630 mV."
-}

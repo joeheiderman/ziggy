@@ -1,9 +1,0 @@
-{
-  "hummingbird.startHummingbird": "Este block es necesario para todos los programas de Hummingbird.",
-  "hummingbird.setLED": "de 0 % a 100%",
-  "hummingbird.setTriLED": "valores de luminosidad del verde y azul. Rango de valores entre 0% y 180",
-  "hummingbird.setPositionServo": "",
-  "hummingbird.setRotationServo": "100 % hasta 100%",
-  "hummingbird.getSensor": "Las distancias del sensor estan en cm. El resto de las lecturas van en un rango de 0 hasta un comportamiento impredecible cuando el valor esta por debajo de 4630 mV.",
-  "hummingbird.getBattery": ""
-}

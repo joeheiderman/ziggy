@@ -1,28 +1,26 @@
 // tests go here; this will not be compiled when this package is used as a library
 input.onButtonPressed(Button.A, function () {
-    basic.showNumber(hummingbird.getBattery())
+    basic.showNumber(finch.getBattery())
 })
-hummingbird.startHummingbird()
+finch.startFinch()
 basic.forever(function () {
-    if (hummingbird.getSensor(SensorType.Light, ThreePort.One) < 10) {
-        hummingbird.setLED(ThreePort.One, 100)
-        hummingbird.setPositionServo(FourPort.One, 180)
-        hummingbird.setRotationServo(FourPort.Two, 100)
-        hummingbird.setTriLED(
-            TwoPort.One,
-            100,
+    if (finch.getLight(RLDir.Right) < 10) {
+        finch.setBeak(0, 100, 100)
+        finch.setMove(MoveDir.Forward, 100, 10)
+        finch.setTail(
+            TailPort.All,
             0,
-            100
+            100,
+            0
         )
     } else {
-        hummingbird.setLED(ThreePort.One, 0)
-        hummingbird.setPositionServo(FourPort.One, 0)
-        hummingbird.setRotationServo(FourPort.Two, 0)
-        hummingbird.setTriLED(
-            TwoPort.One,
+        finch.setBeak(100, 0, 0)
+        finch.setMove(MoveDir.Backward, 100, 10)
+        finch.setTail(
+            TailPort.All,
             0,
             0,
-            0
+            100
         )
     }
 })

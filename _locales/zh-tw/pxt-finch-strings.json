@@ -1,0 +1,14 @@
+{
+  "finch.startFinch|block": "啟動Finch",
+  "finch.setTriLED|block": "Finch 三色LED %port_num| 紅 %Red| 綠 %Green| 藍 %Blue|",
+  "finch.setLED|block": "Finch LED %port_num| %intensity| \\%",
+  "finch.setPositionServo|block": "Finch 位置伺服 %port_num| %angle| °",
+  "finch.setRotationServo|block": "Finch 旋轉伺服 %port_num| %speed| \\%",
+  "finch.getSensor|block": "Finch %sensorType| %port_num|",
+  "SensorType.Light|block": "燈光",
+  "SensorType.Distance|block": "距離",
+  "SensorType.Dial|block": "撥號",
+  "SensorType.Sound|block": "聲音",
+  "SensorType.Other|block": "其他",
+  "finch.getBattery|block": "Finch 電池"
+}

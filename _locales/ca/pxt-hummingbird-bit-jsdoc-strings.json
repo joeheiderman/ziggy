@@ -1,9 +1,0 @@
-{
-  "hummingbird.startHummingbird": "Tots els programes de Hummingbird requereixen aquest bloc.",
-  "hummingbird.setLED": "Ajusta la brillantor d'un LED d'un sol color connectat als ports 1, 2 o 3 entre 0% i 100%.",
-  "hummingbird.setTriLED": "Ajusta el color d'un LED tricolor connectat als ports 1 o 2 al color especificat pels nivells de brillantor de vermell, verd i blau. Els valors van de 0% a 100%.",
-  "hummingbird.setPositionServo": "Fixa la posició d'un servomotor posicional connectat als ports 1, 2, 3 o 4 a un angle entre 0º i 180º.",
-  "hummingbird.setRotationServo": "Ajusta la velocitat d'un servomotor rotacional connectat als ports 1, 2, 3 o 4 entre -100% i 100%.",
-  "hummingbird.getSensor": "Llegeix el valor d'un sensor connectat als ports 1, 2 o 3. Les lectures del sensor de distància són en cm. Totes les altres lectures van de 0 a 100 (sense unitats).",
-  "hummingbird.getBattery": "Llegeix la càrrega de la bateria en milivolts. Quan el valor baixa de 4630 mV poden observar-se comportaments extranys."
-}

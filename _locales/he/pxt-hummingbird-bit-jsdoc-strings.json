@@ -1,9 +1,0 @@
-{
-  "hummingbird.startHummingbird": "בלוק זה נדרש בכל התוכנית של יונק הדבש",
-  "hummingbird.setLED": "מגדיר לד חד צבעי ביציאה  4 או ,3 1,2 לבהירות טווח בין 0% ל 100%",
-  "hummingbird.setTriLED": "",
-  "hummingbird.setPositionServo": "מגדיר סרוו כיוון ביציאה 1,2,3 או 4 לזווית בין 0 ל 180 מעלות",
-  "hummingbird.setRotationServo": "מגדיר סרוו סיבובים ביציאה 1,2,3 או4 במהירות בין-100% ל100%",
-  "hummingbird.getSensor": "קורא טווח  בין 0 ל 100 (לא יחידות)",
-  "hummingbird.getBattery": ""
-}

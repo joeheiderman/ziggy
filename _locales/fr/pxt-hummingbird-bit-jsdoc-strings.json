@@ -1,9 +1,0 @@
-{
-  "hummingbird.startHummingbird": "Ce bloc est nécessaire pour chaque programme Hummingbird.",
-  "hummingbird.setLED": "Définit une couleur unique LED sur la porte 1, 2 ou 3 à une valeur de luminosité de 0% à 100%.",
-  "hummingbird.setTriLED": "Définit un tri-couleur LED sur la porte 1 ou 2 pour la couleur spécifiée par des valeurs de luminosité rouge, vert et bleu. Les valeurs vont de 0% à 100%.",
-  "hummingbird.setPositionServo": "Définit une position de servo sur les portes 1, 2, 3 ou 4 selon un angle compris entre 0 ° et 180 °.",
-  "hummingbird.setRotationServo": "Définit une rotation de servo sur les portes 1, 2, 3 ou 4 selon une vitesse de rotation entre -100 ° et 100 °.",
-  "hummingbird.getSensor": "Lit la valeur du capteur sur les portes 1, 2 ou 3. Les lectures du capteur de distance sont données en cm. Toutes les autres lectures vont de 0 à 100 (pas d'unités).",
-  "hummingbird.getBattery": "Lit la valeur de la batterie en milliVolts. Vous pouvez commencer à voir un comportement étrange lorsque la valeur est inférieure à 4630 mV."
-}

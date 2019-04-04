@@ -1,9 +1,0 @@
-{
-  "hummingbird.startHummingbird": "每個Hummingbird程式都需要此方塊。",
-  "hummingbird.setLED": "將端口1,2或3上的單色LED亮度值0設置為％至100％。",
-  "hummingbird.setTriLED": "將端口1或2上的三色LED設置為紅色，綠色和藍色。 亮度從0％到100％。",
-  "hummingbird.setPositionServo": "將端口1,2,3或4上的位置伺服的角度設置為0°至180°。",
-  "hummingbird.setRotationServo": "將端口1,2,3或4上的旋轉伺服的旋轉速度設置為-100％至100％。",
-  "hummingbird.getSensor": "在端口1,2或3上讀取感應器的值。距離傳感器的讀數以cm為單位。 所有其他讀數範圍從0到100（無單位）。",
-  "hummingbird.getBattery": "以毫伏為單位讀取電池的值。 當值低於4630 mV時，可能出現奇怪的現象。"
-}

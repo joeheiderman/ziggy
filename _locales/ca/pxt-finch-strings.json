@@ -1,0 +1,14 @@
+{
+  "finch.startFinch|block": "Inicia Finch",
+  "finch.setTriLED|block": "Finch Tri-LED %port_num| vermell %Red| verd %Green| blau %Blue|",
+  "finch.setLED|block": "Finch LED %port_num| %intensity| \\%",
+  "finch.setPositionServo|block": "Finch Servo posicional %port_num| %angle| °",
+  "finch.setRotationServo|block": "Finch Servo rotacional %port_num| %speed| \\%",
+  "finch.getSensor|block": "Finch %sensorType| %port_num|",
+  "SensorType.Light|block": "Llum",
+  "SensorType.Distance|block": "Distància",
+  "SensorType.Dial|block": "Rodeta",
+  "SensorType.Sound|block": "So",
+  "SensorType.Other|block": "Altres",
+  "finch.getBattery|block": "Finch Bateria"
+}
