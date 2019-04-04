@@ -207,4 +207,28 @@ namespace finch {
       }
     }
 
+    /**
+     * Sets the finch to turn in the given direction at given speed for given distance
+     * @param direction Right or Left
+     * @param speed the speed as a percent for the motor [0 to 100]
+     * @param angle the angle to turn in degrees
+     */
+    //% weight=26 blockId="setTurn" block="Finch Turn %direction| at %speed| \\% for %angle|°"
+    //% speed.min=0 speed.max=100
+    //% angle.min=0 angle.max=180
+    export function setTurn(direction: RLDir, speed: number = 50, angle: number = 90): void {
+      let r_speed = 0
+      let l_speed = 0
+      let r_dist = 0
+      let l_dist = 0
+      if (direction == RLDir.Right) {
+        l_speed = speed
+        r_speed = -speed
+      } else {
+        l_speed = -speed
+        r_speed = speed
+      }
+      sendMotor(l_speed, l_dist, r_speed, r_dist)
+    }
+
 }
