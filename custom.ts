@@ -151,10 +151,60 @@ namespace finch {
      * @param speed the speed as a percent for the motor [0 to 100]
      * @param distance the discance to travel in cm
      */
-    //% weight=28 blockId="setMove" block="Finch Move %direction| at %speed| \\% for %discance|cm"
+    //% weight=27 blockId="setMove" block="Finch Move %direction| at %speed| \\% for %discance|cm"
     //% speed.min=0 speed.max=100
     export function setMove(direction: MoveDir, speed: number = 50, distance: number = 10) : void {
-      //sendMotor(speed, distance, speed, distance)
+      sendMotor(speed, distance, speed, distance)
+    }
+
+    /**
+     * Sends finch motor command
+     */
+    function sendMotor(l_speed: number, l_dist: number, r_speed: number, r_dist:number) : void {
+      let port_val = 0xD2
+      if (l_speed > 100)
+          l_speed = 100
+      if (l_speed < 0)
+          l_speed = 0
+      if (r_speed > 100)
+          r_speed = 100
+      if (r_speed < 0)
+          r_speed = 0
+
+      //TODO: Convert distance to ticks
+      let l_ticks_msb = 0
+      let l_ticks_lsb = 0
+      let r_ticks_msb = 0
+      let r_ticks_lsb = 0
+
+      let timeout = 0
+      while (!readyToSend && timeout < 25) {
+          basic.pause(10)
+          timeout++;
+      }
+      if (readyToSend) {
+        readyToSend = false
+        control.waitMicros(waitTime_Initial)
+        pins.digitalWritePin(DigitalPin.P16, 0)
+        control.waitMicros(waitTime_1)
+        pins.spiWrite(port_val)
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(l_speed)
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(l_ticks_msb)
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(l_ticks_lsb)
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(r_speed)
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(r_ticks_msb)
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(r_ticks_lsb)
+        control.waitMicros(waitTime_1)
+        pins.digitalWritePin(DigitalPin.P16, 1)
+        //control.waitMicros(1000)
+        readyToSend = true
+      }
     }
 
 }
