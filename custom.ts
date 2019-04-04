@@ -160,7 +160,7 @@ namespace finch {
     /**
      * Sends finch motor command
      */
-    function sendMotor(l_speed: number, l_dist: number, r_speed: number, r_dist:number) : void {
+    export function sendMotor(l_speed: number, l_dist: number, r_speed: number, r_dist:number) : void {
       let port_val = 0xD2
       if (l_speed > 100)
           l_speed = 100
@@ -231,7 +231,7 @@ namespace finch {
       sendMotor(l_speed, l_dist, r_speed, r_dist)
     }
 
-    
+
 
 
 }
