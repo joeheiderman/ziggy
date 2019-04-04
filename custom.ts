@@ -231,17 +231,7 @@ namespace finch {
       sendMotor(l_speed, l_dist, r_speed, r_dist)
     }
 
-    /**
-     * Starts the finch moving at given speed
-     * @param speed the speed as a percent for the motor [0 to 100]
-     * @param distance the discance to travel in cm
-     */
-    //% weight=25 blockId="startMotors" block="Finch L %l_speed|% R %r_speed|%"
-    //% l_speed.min=0 l_speed.max=100
-    //% r_speed.min=0 r_speed.max=100
-    export function startMotors(l_speed: number = 50, r_speed: number = 50) : void {
-      sendMotor(l_speed, 0, r_speed, 0)
-    }
-
     
+
+
 }
