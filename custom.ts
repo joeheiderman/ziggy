@@ -145,17 +145,6 @@ namespace finch {
 
     }
 
-    /**
-     * Sets the finch to move in the given direction at given speed for given distance
-     * @param direction Forward or Backward
-     * @param speed the speed as a percent for the motor [0 to 100]
-     * @param distance the discance to travel in cm
-     */
-    //% weight=27 blockId="setMove" block="Finch Move %direction| at %speed| \\% for %discance|cm"
-    //% speed.min=0 speed.max=100
-    export function setMove(direction: MoveDir, speed: number = 50, distance: number = 10) : void {
-      sendMotor(speed, distance, speed, distance)
-    }
 
     /**
      * Sends finch motor command
@@ -205,6 +194,18 @@ namespace finch {
         //control.waitMicros(1000)
         readyToSend = true
       }
+    }
+
+    /**
+     * Sets the finch to move in the given direction at given speed for given distance
+     * @param direction Forward or Backward
+     * @param speed the speed as a percent for the motor [0 to 100]
+     * @param distance the discance to travel in cm
+     */
+    //% weight=27 blockId="setMove" block="Finch Move %direction| at %speed| \\% for %discance|cm"
+    //% speed.min=0 speed.max=100
+    export function setMove(direction: MoveDir, speed: number = 50, distance: number = 10) : void {
+      sendMotor(speed, distance, speed, distance)
     }
 
     /**
