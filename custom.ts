@@ -247,10 +247,27 @@ namespace finch {
     /**
      * Stops the finch motors
      */
-    //% weight=28 blockId="stopMotors" block="Finch Stop"
+    //% weight=24 blockId="stopMotors" block="Finch Stop"
     export function stopMotors() : void {
       sendMotor(0, 0, 0, 0)
     }
 
+    /**
+     * Resets the finch encoders
+     */
+    //% weight=23 blockId="resetEncoders" block="Finch Reset Encoders"
+    export function resetEncoders() : void {
+
+    }
+
+    /**
+     * Returns the finch encoder value specified. Forward is +, Back is -
+     * Returns a value in rotations.
+     * @param encoder Right or Left
+     */
+    //% weight=22 blockId="getEncoder" block="Finch %encoder| Encoder"
+    export function getEncoder(encoder: RLDir) : number {
+      return 0
+    }
 
 }
