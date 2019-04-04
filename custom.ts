@@ -130,4 +130,19 @@ namespace finch {
         }
     }
 
+    /**
+     * Sets the color of one or all of the tail leds
+     * @param port
+     * @param red the % brightness of the red LED element [0-100]
+     * @param green the % brightness of the green LED element [0-100]
+     * @param blue the % brightness of the blue LED element [0-100]
+     */
+    //% weight=28 blockId="setTail" block="Finch Tail %port| Red %Red| Green %Green| Blue %Blue|"
+    //% Red.min=0 Red.max=100
+    //% Green.min=0 Green.max=100
+    //% Blue.min=0 Blue.max=100
+    export function setTail(port: TailPort, red: number = 50, green: number = 0, blue: number = 50): void {
+
+    }
+
 }
