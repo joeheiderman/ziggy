@@ -270,4 +270,117 @@ namespace finch {
       return 0
     }
 
+
+    /**
+     * Returns the distance to the closest obstacle in cm
+     */
+    //% weight=21 blockId="resetEncoders" block="Finch Distance (cm)"
+    export function getDistance() : number {
+      this.getSensors()
+      // Scale distance value to cm
+      let return_val = (( sensor_vals[2]<<8 | sensor_vals[3] ) * 117 / 100)
+
+      return Math.round(return_val)
+    }
+
+    /**
+     * Returns brightness as a value 0-100
+     * @param light Right or Left
+     */
+    //% weight=20 blockId="getLight" block="Finch %light| Light"
+    export function getLight(light: RLDir) : number {
+      this.getSensors()
+      let return_val = 0
+      if (light = RLDir.Right) {
+        return_val = sensor_vals[5]
+      } else {
+        return_val = sensor_vals[4]
+      }
+      return_val = return_val * 100 / 255
+      return Math.round(return_val)
+    }
+
+    /**
+     * Returns a value 0-100
+     * @param line Right or Left
+     */
+    //% weight=19 blockId="getLine" block="Finch %line| Line"
+    export function getLine(line: RLDir) : number {
+      this.getSensors()
+      let return_val = 0
+      if (line = RLDir.Right) {
+        return_val = sensor_vals[7]
+      } else {
+        return_val = sensor_vals[6]
+      }
+      return_val = return_val * 100 / 255
+      return Math.round(return_val)
+    }
+
+    /**
+     * Reads the value of the battery in milliVolts. You may start to see
+     * strange behavior when the value is below 4630 mV.
+     */
+    //% weight=18 blockId="getBattery" block="Finch Battery"
+    export function getBattery(): number {
+        this.getSensors()
+        let return_val = 406 * (sensor_vals[8]) / 10
+        return Math.round(return_val)
+    }
+
+    /**
+     * Reads the value of the sensors
+     */
+    export function getSensors(): void {
+        let timeout = 0
+        while (!readyToSend && timeout < 25) {
+            basic.pause(10)
+            timeout++;
+        }
+        if (readyToSend) {
+
+            readyToSend = false
+            // Need to read all sensor values and the battery to complete the communication protocol.
+            control.waitMicros(waitTime_Initial)
+            pins.digitalWritePin(DigitalPin.P16, 0)
+            control.waitMicros(waitTime_1)
+            sensor_vals[0] = pins.spiWrite(0xDE) //nothing
+            control.waitMicros(waitTime_2)
+            sensor_vals[1] = pins.spiWrite(0xFF) //nothing
+            control.waitMicros(waitTime_2)
+            sensor_vals[2] = pins.spiWrite(0xFF) //distance msb
+            control.waitMicros(waitTime_2)
+            sensor_vals[3] = pins.spiWrite(0xFF) //distance lsb
+            control.waitMicros(waitTime_2)
+            sensor_vals[4] = pins.spiWrite(0xFF) //light left
+            control.waitMicros(waitTime_2)
+            sensor_vals[5] = pins.spiWrite(0xFF) //light right
+            control.waitMicros(waitTime_2)
+            sensor_vals[6] = pins.spiWrite(0xFF) //line left
+            control.waitMicros(waitTime_2)
+            sensor_vals[7] = pins.spiWrite(0xFF) //line right
+            control.waitMicros(waitTime_2)
+            sensor_vals[8] = pins.spiWrite(0xFF) //battery
+            control.waitMicros(waitTime_2)
+            sensor_vals[9] = pins.spiWrite(0xFF) //enc4 left
+            control.waitMicros(waitTime_2)
+            sensor_vals[10] = pins.spiWrite(0xFF) //enc3 left
+            control.waitMicros(waitTime_2)
+            sensor_vals[11] = pins.spiWrite(0xFF) //enc2 left
+            control.waitMicros(waitTime_2)
+            sensor_vals[12] = pins.spiWrite(0xFF) //enc1 left
+            control.waitMicros(waitTime_2)
+            sensor_vals[13] = pins.spiWrite(0xFF) //enc4 right
+            control.waitMicros(waitTime_2)
+            sensor_vals[14] = pins.spiWrite(0xFF) //enc3 right
+            control.waitMicros(waitTime_2)
+            sensor_vals[15] = pins.spiWrite(0xFF) //enc2 right
+            control.waitMicros(waitTime_2)
+            sensor_vals[16] = pins.spiWrite(0xFF) //enc1 right
+            control.waitMicros(waitTime_1)
+            pins.digitalWritePin(DigitalPin.P16, 1)
+            readyToSend = true
+        }
+    }
+
 }
