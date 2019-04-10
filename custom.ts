@@ -38,6 +38,9 @@ namespace finch {
     let waitTime_2 = 100
     let waitTime_Initial = 500
     let waitTime_Start = 2000
+    let tailPin: DigitalPin = DigitalPin.P2
+    let tailBuf: Buffer
+    let buzzerPin: DigitalPin = DigitalPin.P0
 
     let sensor_vals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     readyToSend = false // to prevent sending or attempting to receive data until we have initialized the connection
@@ -73,6 +76,11 @@ namespace finch {
         // Set LEDs 2 and 3 to 0
         pins.analogWritePin(AnalogPin.P2, 0)
         pins.analogWritePin(AnalogPin.P8, 0)
+
+        //Setup for tail LEDs
+        tailBuf = pins.createBuffer(12) //buffer to hold rgb values for tail LEDs
+        tailBuf.fill(0, 0, 12)
+        pins.digitalWritePin(tailPin, 0);
     }
 
     /**
@@ -143,6 +151,18 @@ namespace finch {
     //% Blue.min=0 Blue.max=100
     export function setTail(port: TailPort, red: number = 50, green: number = 0, blue: number = 50): void {
 
+      if (port === TailPort.All){
+        for (let i = 0; i < 4; i++) {
+          tailBuf[i*3 + 1] = red*255/100
+          tailBuf[i*3 + 0] = green*255/100
+          tailBuf[i*3 + 2] = blue*255/100
+        }
+      } else {
+        tailBuf[(port-1)*3 + 1] = red*255/100
+        tailBuf[(port-1)*3 + 0] = green*255/100
+        tailBuf[(port-1)*3 + 2] = blue*255/100
+      }
+      ws2812b.sendBuffer(tailBuf, tailPin);
     }
 
 
@@ -330,7 +350,7 @@ namespace finch {
      */
     //% weight=21 blockId="resetEncoders" block="Finch Distance (cm)"
     export function getDistance() : number {
-      this.getSensors()
+      getSensors()
       // Scale distance value to cm
       let return_val = (( sensor_vals[2]<<8 | sensor_vals[3] ) * 117 / 100)
 
@@ -343,7 +363,7 @@ namespace finch {
      */
     //% weight=20 blockId="getLight" block="Finch %light| Light"
     export function getLight(light: RLDir) : number {
-      this.getSensors()
+      getSensors()
       let return_val = 0
       if (light = RLDir.Right) {
         return_val = sensor_vals[5]
@@ -360,7 +380,7 @@ namespace finch {
      */
     //% weight=19 blockId="getLine" block="Finch %line| Line"
     export function getLine(line: RLDir) : number {
-      this.getSensors()
+      getSensors()
       let return_val = 0
       if (line = RLDir.Right) {
         return_val = sensor_vals[7]
@@ -377,7 +397,7 @@ namespace finch {
      */
     //% weight=18 blockId="getBattery" block="Finch Battery"
     export function getBattery(): number {
-        this.getSensors()
+        getSensors()
         let return_val = 406 * (sensor_vals[8]) / 10
         return Math.round(return_val)
     }
