@@ -459,7 +459,7 @@ namespace finch {
     export function getLight(light: RLDir): number {
         getSensors()
         let return_val = 0
-        if (light = RLDir.Right) {
+        if (light == RLDir.Right) {
             return_val = sensor_vals[5]
         } else {
             return_val = sensor_vals[4]
@@ -476,7 +476,7 @@ namespace finch {
     export function getLine(line: RLDir): number {
         getSensors()
         let return_val = 0
-        if (line = RLDir.Right) {
+        if (line == RLDir.Right) {
             return_val = sensor_vals[7]
         } else {
             return_val = sensor_vals[6]
