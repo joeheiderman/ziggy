@@ -31,25 +31,38 @@ enum TailPort {
  */
 //% color=#62bcc7 weight=32 icon="\uF0EB"
 namespace finch {
+
     let readyToSend: boolean
     let waitTime_1 = 4
     let waitTime_2 = 100
     let waitTime_Initial = 500
     let waitTime_Start = 2000
     let FILLER_VALUE = 0xFF
+    let FILLER_VALUE_2 = 0x00
     let STOP_COMMAD = 0xDF
-    let SET_BEAKLED_COMMAND = 0xD0
+    let SET_LED_COMMAND = 0xD0
     let SET_MOTOR_COMMAND = 0xD2
+    let SET_SINGLE_LED_COMMAND = 0xD3
+    let CONVERSION_FACTOR_CM_TICKS = 76.45
+    let MINIMUM_SPEED = 0         //cm/sec
+    let MAXIMUM_SPEED = 15        //cm/sec
+    let SPEED_CONVERSION_FACTOR = 4.18
     let MOSI_PIN = DigitalPin.P15
     let MISO_PIN = DigitalPin.P14
     let SCK_PIN = DigitalPin.P13
     let SLAVESELECT_PIN = DigitalPin.P16
 
+
     let tailPin: DigitalPin = DigitalPin.P2
     let tailBuf: Buffer
     let buzzerPin: DigitalPin = DigitalPin.P0
+    let beakLEDR = 0
+    let beakLEDG = 0
+    let beakLEDB = 0
 
-    let sensor_vals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //15 bytes
+
+    let sensor_vals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];  //16 bytes
+    let ledOutputs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];  //15 bytes
     readyToSend = false // to prevent sending or attempting to receive data until we have initialized the connection
 
 
@@ -61,19 +74,13 @@ namespace finch {
 
         pins.analogWritePin(AnalogPin.P0, 0)
         basic.pause(waitTime_Start);                //To avoid the bootloader
-        //Temporary MOSI and SS interchage
         pins.digitalWritePin(SLAVESELECT_PIN, 1)
         pins.spiPins(MOSI_PIN, MISO_PIN, SCK_PIN)
         pins.spiFormat(8, 0)
         pins.spiFrequency(1000000)
         stop()
         readyToSend = true
-        //Clear or do something with neopixel LEDs
-
-        //Setup for tail LEDs
-        tailBuf = pins.createBuffer(12) //buffer to hold rgb values for tail LEDs
-        tailBuf.fill(0, 0, 12)
-        pins.digitalWritePin(tailPin, 0);
+        //Clear or do something with neopixel LED
     }
 
     //Stop Command
@@ -98,10 +105,113 @@ namespace finch {
         pins.spiWrite(FILLER_VALUE)                 //8
         control.waitMicros(waitTime_2)
         pins.spiWrite(FILLER_VALUE)                 //9
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(FILLER_VALUE)                 //10
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(FILLER_VALUE)                 //11
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(FILLER_VALUE)                 //12
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(FILLER_VALUE)                 //13
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(FILLER_VALUE)                 //14
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(FILLER_VALUE)                 //15
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(FILLER_VALUE)                 //16
         control.waitMicros(waitTime_1)
+
         pins.digitalWritePin(SLAVESELECT_PIN, 1)
         //control.waitMicros(1000)
 
+    }
+
+
+    //Utiltity function to send the LED command for beak and tail LED
+    //Stop Command
+    export function sendLED(red: number = 50, green: number = 0, blue: number = 50): void {
+        while (!readyToSend); // Wait for other functions in other threads
+        readyToSend = false
+        control.waitMicros(waitTime_Initial)
+        pins.digitalWritePin(SLAVESELECT_PIN, 0)
+        control.waitMicros(waitTime_1)
+        pins.spiWrite(SET_LED_COMMAND)                  //1
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(beakLEDR)                //2
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(beakLEDG)                //3
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(beakLEDB)                //4
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(red)                //5
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(green)                //6
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(blue)                //7
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(red)                //8
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(green)                //9
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(blue)                //10
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(red)                //11
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(green)                //12
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(blue)                //13
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(red)                //14
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(green)                //15
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(blue)                //16
+        control.waitMicros(waitTime_1)
+        pins.digitalWritePin(SLAVESELECT_PIN, 1)
+        readyToSend = true
+
+    }
+
+    export function sendSingleLED(portNumber: number = 0, red: number = 50, green: number = 0, blue: number = 50): void {
+        while (!readyToSend); // Wait for other functions in other threads
+        readyToSend = false
+        control.waitMicros(waitTime_Initial)
+        pins.digitalWritePin(SLAVESELECT_PIN, 0)
+        control.waitMicros(waitTime_1)
+        pins.spiWrite(SET_SINGLE_LED_COMMAND)       //1
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(portNumber)                  //Beak LED 2
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(red)                          //3
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(green)                        //4
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(blue)                         //5
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(FILLER_VALUE_2)                 //6
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(FILLER_VALUE_2)                 //7
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(FILLER_VALUE_2)                 //8
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(FILLER_VALUE_2)                 //9
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(FILLER_VALUE_2)                 //10
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(FILLER_VALUE_2)                 //11
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(FILLER_VALUE_2)                 //12
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(FILLER_VALUE_2)                 //13
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(FILLER_VALUE_2)                 //14
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(FILLER_VALUE_2)                 //15
+        control.waitMicros(waitTime_2)
+        pins.spiWrite(FILLER_VALUE_2)                 //16
+        control.waitMicros(waitTime_1)
+        pins.digitalWritePin(SLAVESELECT_PIN, 1)
+        readyToSend = true
     }
 
     /**
@@ -116,6 +226,7 @@ namespace finch {
     //% Blue.min=0 Blue.max=100
     export function setBeak(red: number = 50, green: number = 0, blue: number = 50): void {
         let timeout = 0
+        let portNumber = 0
         while (!readyToSend && timeout < 25) {
             basic.pause(10)
             timeout++;
@@ -135,36 +246,12 @@ namespace finch {
             if (blue < 0)
                 blue = 0
 
-            red = red * 255 / 100
-            green = green * 255 / 100
-            blue = blue * 255 / 100
+            beakLEDR = red * 255 / 100
+            beakLEDG = green * 255 / 100
+            beakLEDB = blue * 255 / 100
 
-            while (!readyToSend); // Wait for other functions in other threads
-            readyToSend = false
-            control.waitMicros(waitTime_Initial)
-            pins.digitalWritePin(SLAVESELECT_PIN, 0)
-            control.waitMicros(waitTime_1)
-            pins.spiWrite(SET_BEAKLED_COMMAND)                              // 1
-            control.waitMicros(waitTime_2)
-            pins.spiWrite(red)                                              // 2
-            control.waitMicros(waitTime_2)
-            pins.spiWrite(green)                                            // 3
-            control.waitMicros(waitTime_2)
-            pins.spiWrite(blue)                                            // 4
-            control.waitMicros(waitTime_2)
-            pins.spiWrite(FILLER_VALUE)                                     // 5
-            control.waitMicros(waitTime_2)
-            pins.spiWrite(FILLER_VALUE)                                     // 6
-            control.waitMicros(waitTime_2)
-            pins.spiWrite(FILLER_VALUE)                                     // 7
-            control.waitMicros(waitTime_2)
-            pins.spiWrite(FILLER_VALUE)                                     // 8
-            control.waitMicros(waitTime_2)
-            pins.spiWrite(FILLER_VALUE)                                     // 9
-            control.waitMicros(waitTime_1)
-            pins.digitalWritePin(SLAVESELECT_PIN, 1)
-            //control.waitMicros(1000)
-            readyToSend = true
+            sendSingleLED(portNumber, red, green, blue)
+
         }
     }
 
@@ -180,19 +267,30 @@ namespace finch {
     //% Green.min=0 Green.max=100
     //% Blue.min=0 Blue.max=100
     export function setTail(port: TailPort, red: number = 50, green: number = 0, blue: number = 50): void {
-
-      if (port === TailPort.All){
-        for (let i = 0; i < 4; i++) {
-          tailBuf[i*3 + 1] = red*255/100
-          tailBuf[i*3 + 0] = green*255/100
-          tailBuf[i*3 + 2] = blue*255/100
+        let timeout = 0
+        while (!readyToSend && timeout < 25) {
+            basic.pause(10)
+            timeout++;
         }
-      } else {
-        tailBuf[(port-1)*3 + 1] = red*255/100
-        tailBuf[(port-1)*3 + 0] = green*255/100
-        tailBuf[(port-1)*3 + 2] = blue*255/100
-      }
-      ws2812b.sendBuffer(tailBuf, tailPin);
+        if (readyToSend) {
+            if (port == TailPort.All) {
+                for (let i = 1; i < 5; i++) {
+                    red = red * 255 / 100
+                    green = green * 255 / 100
+                    blue = blue * 255 / 100
+                    sendLED(red, green, blue)
+                }
+
+            } else {
+                red = red * 255 / 100
+                green = green * 255 / 100
+                blue = blue * 255 / 100
+                sendSingleLED(port, red, green, blue)
+
+            }
+
+        }
+
     }
 
 
@@ -200,10 +298,9 @@ namespace finch {
      * Sends finch motor command
      */
     //Minumum speed  -- 0  cm/sec
-    //Maximum Speed  -- 58 cm/sec
+    //Maximum Speed  -- 16 cm/sec
     export function sendMotor(l_velocity: number, l_dist: number, r_velocity: number, r_dist: number): void {
 
-        let CONVERSION_FACTOR_CM_TICKS = 52.63
         let l_dist_ticks = 0
         let r_dist_ticks = 0
 
@@ -242,11 +339,25 @@ namespace finch {
             control.waitMicros(waitTime_2)
             pins.spiWrite(r_velocity)                                     //6
             control.waitMicros(waitTime_2)
-            pins.spiWrite(r_ticks_3)                                    //7
+            pins.spiWrite(r_ticks_3)                                      //7
             control.waitMicros(waitTime_2)
-            pins.spiWrite(r_ticks_2)                                    //8
+            pins.spiWrite(r_ticks_2)                                      //8
             control.waitMicros(waitTime_2)
-            pins.spiWrite(r_ticks_1)                                    //9
+            pins.spiWrite(r_ticks_1)                                      //9
+            control.waitMicros(waitTime_2)
+            pins.spiWrite(FILLER_VALUE)                                  //10
+            control.waitMicros(waitTime_2)
+            pins.spiWrite(FILLER_VALUE)                                  //11
+            control.waitMicros(waitTime_2)
+            pins.spiWrite(FILLER_VALUE)                                  //12
+            control.waitMicros(waitTime_2)
+            pins.spiWrite(FILLER_VALUE)                                  //13
+            control.waitMicros(waitTime_2)
+            pins.spiWrite(FILLER_VALUE)                                  //14
+            control.waitMicros(waitTime_2)
+            pins.spiWrite(FILLER_VALUE)                                  //15
+            control.waitMicros(waitTime_2)
+            pins.spiWrite(FILLER_VALUE)                                  //16
             control.waitMicros(waitTime_1)
             pins.digitalWritePin(SLAVESELECT_PIN, 1)
             //control.waitMicros(1000)
@@ -257,17 +368,14 @@ namespace finch {
     /**
      * Sets the finch to move in the given direction at given speed for given distance
      * @param direction Forward or Backward
-     * @param speed the speed as a percent for the motor [0 to 100]
+     * @param speed the speed as a percent for the motor [0 to 15]
      * @param distance the discance to travel in cm
      */
     //% weight=27 blockId="setMove" block="Finch Move %direction| at %speed| \\% for %discance|cm"
     //% speed.min=0 speed.max=100
     export function setMove(direction: MoveDir, speed: number = 50, distance: number = 10): void {
         let velocity = 0
-        let MINIMUM_SPEED = 0         //cm/sec
-        let MAXIMUM_SPEED = 60        //cm/sec
         let tick_speed = 0
-        let SPEED_CONVERSION_FACTOR = 1.379
         if (speed > MAXIMUM_SPEED) {
             speed = MAXIMUM_SPEED
         }
@@ -312,7 +420,7 @@ namespace finch {
 
     /**
      * Starts the finch moving at given speed
-     * @param speed the speed as a percent for the motor [0 to 100]
+     * @param speed the speed as a percent for the motor [0 to 15]
      * @param distance the discance to travel in cm
      */
     //% weight=25 blockId="startMotors" block="Finch L %l_direction| at %l_speed| \\R %r_direction| at %r_speed|"
@@ -322,11 +430,10 @@ namespace finch {
         //convert
         let l_velocity = 0
         let r_velocity = 0
-        let MINIMUM_SPEED = 0         //cm/sec
-        let MAXIMUM_SPEED = 60        //cm/sec
+
         let l_tick_speed = 0
         let r_tick_speed = 0
-        let SPEED_CONVERSION_FACTOR = 1.379
+
 
         //Left Motor
         if (l_speed > MAXIMUM_SPEED) {
@@ -357,8 +464,6 @@ namespace finch {
         else if (r_direction == MoveDir.Backward) {
             r_velocity = (0x7F & r_tick_speed);
         }
-
-
         sendMotor(l_velocity, 0, r_velocity, 0)
     }
 
@@ -367,26 +472,10 @@ namespace finch {
      */
     //% weight=24 blockId="stopMotors" block="Finch Stop"
     export function stopMotors(): void {
-        sendMotor(0, 0, 0, 0)
+        sendMotor(0, 1, 0, 1)
     }
 
-    /**
-     * Resets the finch encoders
-     */
-    //% weight=23 blockId="resetEncoders" block="Finch Reset Encoders"
-    export function resetEncoders(): void {
 
-    }
-
-    /**
-     * Returns the finch encoder value specified. Forward is +, Back is -
-     * Returns a value in rotations.
-     * @param encoder Right or Left
-     */
-    //% weight=22 blockId="getEncoder" block="Finch %encoder| Encoder"
-    export function getEncoder(encoder: RLDir): number {
-        return 0
-    }
 
     /**
      * Reads the value of the sensors
@@ -434,9 +523,28 @@ namespace finch {
             control.waitMicros(waitTime_2)
             sensor_vals[14] = pins.spiWrite(0xFF) //enc1 right
             control.waitMicros(waitTime_1)
+            sensor_vals[15] = pins.spiWrite(0xFF) //Filler Value
+            control.waitMicros(waitTime_1)
             pins.digitalWritePin(SLAVESELECT_PIN, 1)
             readyToSend = true
         }
+    }
+
+    /**
+     * Returns the finch encoder value specified. Forward is +, Back is -
+     * Returns a value in rotations.
+     * @param encoder Right or Left
+     */
+    //% weight=22 blockId="getEncoder" block="Finch %encoder| Encoder"
+    export function getEncoder(encoder: RLDir): number {
+        getSensors()
+        let return_val = 0
+        if (encoder = RLDir.Right) {
+            return_val = (sensor_vals[12] << 16 | sensor_vals[13] << 8 | sensor_vals[14])
+        } else {
+            return_val = (sensor_vals[9] << 16 | sensor_vals[10] << 8 | sensor_vals[11])
+        }
+        return return_val
     }
 
     /**
@@ -459,7 +567,7 @@ namespace finch {
     export function getLight(light: RLDir): number {
         getSensors()
         let return_val = 0
-        if (light == RLDir.Right) {
+        if (light = RLDir.Right) {
             return_val = sensor_vals[5]
         } else {
             return_val = sensor_vals[4]
@@ -476,7 +584,7 @@ namespace finch {
     export function getLine(line: RLDir): number {
         getSensors()
         let return_val = 0
-        if (line == RLDir.Right) {
+        if (line = RLDir.Right) {
             return_val = sensor_vals[7]
         } else {
             return_val = sensor_vals[6]
