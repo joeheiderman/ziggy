@@ -423,10 +423,10 @@ namespace finch {
      * @param speed the speed as a percent for the motor [0 to 15]
      * @param distance the discance to travel in cm
      */
-    //% weight=25 blockId="startMotors" block="Finch L %l_direction| at %l_speed| \\R %r_direction| at %r_speed|"
+    //% weight=25 blockId="startMotors" block="Finch L %l_speed| \\% R at %r_speed| \\%"
     //% l_speed.min=0 l_speed.max=100
     //% r_speed.min=0 r_speed.max=100
-    export function startMotors(l_direction: MoveDir, l_speed: number = 50, r_direction: MoveDir, r_speed: number = 50): void {
+    export function startMotors(l_speed: number = 50, r_speed: number = 50): void {
         //convert
         let l_velocity = 0
         let r_velocity = 0
