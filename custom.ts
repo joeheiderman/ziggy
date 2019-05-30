@@ -1,4 +1,4 @@
- enum MoveDir {
+enum MoveDir {
     //% block="Forward"
     Forward,
     //% block="Backward"
@@ -43,10 +43,11 @@ namespace finch {
     let SET_LED_COMMAND = 0xD0
     let SET_MOTOR_COMMAND = 0xD2
     let SET_SINGLE_LED_COMMAND = 0xD3
-    let CONVERSION_FACTOR_CM_TICKS = 76.45
-    let MINIMUM_SPEED = 0         //cm/sec
-    let MAXIMUM_SPEED = 15        //cm/sec
-    let SPEED_CONVERSION_FACTOR = 4.18
+    let CONVERSION_FACTOR_CM_TICKS = 51.02
+    let MINIMUM_SPEED = 0          //cm/sec
+    let MAXIMUM_SPEED = 45        //cm/sec
+    let SPEED_CONVERSION_FACTOR = 4.04
+    let BATT_FACTOR = 0.40
     let MOSI_PIN = DigitalPin.P15
     let MISO_PIN = DigitalPin.P14
     let SCK_PIN = DigitalPin.P13
@@ -298,7 +299,7 @@ namespace finch {
      * Sends finch motor command
      */
     //Minumum speed  -- 0  cm/sec
-    //Maximum Speed  -- 16 cm/sec
+    //Maximum Speed  -- 30 cm/sec
     export function sendMotor(l_velocity: number, l_dist: number, r_velocity: number, r_dist: number): void {
 
         let l_dist_ticks = 0
@@ -327,25 +328,26 @@ namespace finch {
             control.waitMicros(waitTime_Initial)
             pins.digitalWritePin(SLAVESELECT_PIN, 0)
             control.waitMicros(waitTime_1)
-            pins.spiWrite(SET_MOTOR_COMMAND)                               //1
+
+            pins.spiWrite(SET_MOTOR_COMMAND)                              //1
             control.waitMicros(waitTime_2)
-            pins.spiWrite(l_velocity)                                     //2
+            pins.spiWrite(FILLER_VALUE)                                  //2
             control.waitMicros(waitTime_2)
-            pins.spiWrite(l_ticks_3)                                      //3
+            pins.spiWrite(l_velocity)                                     //3
             control.waitMicros(waitTime_2)
-            pins.spiWrite(l_ticks_2)                                      //4
+            pins.spiWrite(l_ticks_3)                                      //4
             control.waitMicros(waitTime_2)
-            pins.spiWrite(l_ticks_1)                                      //5
+            pins.spiWrite(l_ticks_2)                                      //5
             control.waitMicros(waitTime_2)
-            pins.spiWrite(r_velocity)                                     //6
+            pins.spiWrite(l_ticks_1)                                      //6
             control.waitMicros(waitTime_2)
-            pins.spiWrite(r_ticks_3)                                      //7
+            pins.spiWrite(r_velocity)                                     //7
             control.waitMicros(waitTime_2)
-            pins.spiWrite(r_ticks_2)                                      //8
+            pins.spiWrite(r_ticks_3)                                      //8
             control.waitMicros(waitTime_2)
-            pins.spiWrite(r_ticks_1)                                      //9
+            pins.spiWrite(r_ticks_2)                                      //9
             control.waitMicros(waitTime_2)
-            pins.spiWrite(FILLER_VALUE)                                  //10
+            pins.spiWrite(r_ticks_1)                                      //10
             control.waitMicros(waitTime_2)
             pins.spiWrite(FILLER_VALUE)                                  //11
             control.waitMicros(waitTime_2)
@@ -393,7 +395,6 @@ namespace finch {
 
         sendMotor(velocity, distance, velocity, distance)
     }
-
     /**
      * Sets the finch to turn in the given direction at given speed for given distance
      * @param direction Right or Left
@@ -424,8 +425,8 @@ namespace finch {
      * @param distance the discance to travel in cm
      */
     //% weight=25 blockId="startMotors" block="Finch L %l_speed| \\% R %r_speed| \\%"
-    //% l_speed.min=0 l_speed.max=100
-    //% r_speed.min=0 r_speed.max=100
+    //% l_speed.min=-100 l_speed.max=100
+    //% r_speed.min=-100 r_speed.max=100
     export function startMotors(l_speed: number = 50, r_speed: number = 50): void {
         //convert
         let l_velocity = 0
@@ -434,6 +435,8 @@ namespace finch {
         let l_tick_speed = 0
         let r_tick_speed = 0
 
+        l_speed = l_speed * 1.27
+        r_speed = r_speed * 1.27
 
         //Left Motor
         if (l_speed > MAXIMUM_SPEED) {
@@ -442,7 +445,8 @@ namespace finch {
         else if (l_speed < MINIMUM_SPEED) {
             l_speed = MINIMUM_SPEED
         }
-        l_tick_speed = Math.round(l_speed * SPEED_CONVERSION_FACTOR)
+
+        l_tick_speed = Math.round(Math.abs(l_speed) * SPEED_CONVERSION_FACTOR)
         if (l_speed > 0) {
             l_velocity = (0x80 | l_tick_speed);
         }
@@ -457,7 +461,7 @@ namespace finch {
         else if (r_speed < MINIMUM_SPEED) {
             r_speed = MINIMUM_SPEED
         }
-        r_tick_speed = Math.round(r_speed * SPEED_CONVERSION_FACTOR)
+        r_tick_speed = Math.round(Math.abs(r_speed) * SPEED_CONVERSION_FACTOR)
         if (r_speed > 0) {
             r_velocity = (0x80 | r_tick_speed);
         }
@@ -554,8 +558,7 @@ namespace finch {
     export function getDistance(): number {
         getSensors()
         // Scale distance value to cm
-        let return_val = ((sensor_vals[2] << 8 | sensor_vals[3]) * 117 / 100)
-
+        let return_val = ((sensor_vals[2] << 8 | sensor_vals[3]) * 0.0919)
         return Math.round(return_val)
     }
 
@@ -600,7 +603,7 @@ namespace finch {
     //% weight=18 blockId="getBattery" block="Finch Battery"
     export function getBattery(): number {
         getSensors()
-        let return_val = 406 * (sensor_vals[8]) / 10
+        let return_val = BATT_FACTOR * (sensor_vals[8]) / 10
         return Math.round(return_val)
     }
 }
