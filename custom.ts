@@ -220,7 +220,7 @@ namespace finch {
      * @param green the % brightness of the green LED element [0-100]
      * @param blue the % brightness of the blue LED element [0-100]
      */
-    //% weight=29 blockId="setBeak" block="Finch Beak Red %Red| Green %Green| Blue %Blue|"
+    //% weight=29 blockId="setBeak" block="Finch Beak Red %Red| \\% Green %Green| \\% Blue %Blue| \\%"
     //% Red.min=0 Red.max=100
     //% Green.min=0 Green.max=100
     //% Blue.min=0 Blue.max=100
@@ -423,7 +423,7 @@ namespace finch {
      * @param speed the speed as a percent for the motor [0 to 15]
      * @param distance the discance to travel in cm
      */
-    //% weight=25 blockId="startMotors" block="Finch L %l_speed| \\% R at %r_speed| \\%"
+    //% weight=25 blockId="startMotors" block="Finch L %l_speed| \\% R %r_speed| \\%"
     //% l_speed.min=0 l_speed.max=100
     //% r_speed.min=0 r_speed.max=100
     export function startMotors(l_speed: number = 50, r_speed: number = 50): void {
