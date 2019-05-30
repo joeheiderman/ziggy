@@ -443,10 +443,10 @@ namespace finch {
             l_speed = MINIMUM_SPEED
         }
         l_tick_speed = Math.round(l_speed * SPEED_CONVERSION_FACTOR)
-        if (l_direction == MoveDir.Forward) {
+        if (l_speed > 0) {
             l_velocity = (0x80 | l_tick_speed);
         }
-        else if (l_direction == MoveDir.Backward) {
+        else {
             l_velocity = (0x7F & l_tick_speed);
         }
 
@@ -458,10 +458,10 @@ namespace finch {
             r_speed = MINIMUM_SPEED
         }
         r_tick_speed = Math.round(r_speed * SPEED_CONVERSION_FACTOR)
-        if (r_direction == MoveDir.Forward) {
+        if (r_speed > 0) {
             r_velocity = (0x80 | r_tick_speed);
         }
-        else if (r_direction == MoveDir.Backward) {
+        else {
             r_velocity = (0x7F & r_tick_speed);
         }
         sendMotor(l_velocity, 0, r_velocity, 0)
