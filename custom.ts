@@ -46,7 +46,7 @@ namespace finch {
 
     let CONVERSION_FACTOR_CM_TICKS = 50.95
     let ANGLE_TICKS_FACTOR = 2.805
-    let MINIMUM_SPEED = 0
+    let MINIMUM_SPEED = -127
     let MAXIMUM_SPEED = 127
     let SPEED_CONVERSION_FACTOR = 2.805
     let BATT_FACTOR = 0.40
@@ -84,6 +84,7 @@ namespace finch {
         pins.spiFormat(8, 0)
         pins.spiFrequency(1000000)
         stop()
+        resetEncoders()
         readyToSend = true
         //Clear or do something with neopixel LED
     }
@@ -309,10 +310,13 @@ namespace finch {
         let l_dist_ticks = 0
         let r_dist_ticks = 0
 
-
+        l_dist_ticks = l_dist
+        r_dist_ticks = r_dist
+        /*
         //Assuming distance in cm
         l_dist_ticks = Math.round(l_dist * CONVERSION_FACTOR_CM_TICKS)
         r_dist_ticks = Math.round(r_dist * CONVERSION_FACTOR_CM_TICKS)
+        */
 
         //TODO: Convert distance to ticks
         let l_ticks_3 = (l_dist_ticks & 0xFF0000) >> 16
@@ -382,22 +386,29 @@ namespace finch {
     export function setMove(direction: MoveDir, speed: number = 50, distance: number = 10): void {
         let velocity = 0
         let tick_speed = 0
+        let positionControlFlag = 0
         if (speed > MAXIMUM_SPEED) {
             speed = MAXIMUM_SPEED
         }
         if (speed < MINIMUM_SPEED) {
             speed = MINIMUM_SPEED
         }
-        tick_speed = Math.round(speed * SPEED_CONVERSION_FACTOR)
+        //tick_speed = Math.round(speed * SPEED_CONVERSION_FACTOR)
 
+        distance = Math.round(distance * CONVERSION_FACTOR_CM_TICKS)
         if (direction == MoveDir.Forward) {
-            velocity = (0x80 | tick_speed);
+            velocity = (0x80 | speed);
         }
         else if (direction == MoveDir.Backward) {
-            velocity = (0x7F & tick_speed);
+            velocity = (0x7F & speed);
         }
-
         sendMotor(velocity, distance, velocity, distance)
+        basic.pause(50)
+        positionControlFlag = getPositionControlFlag()
+        while (positionControlFlag == 1) {
+            positionControlFlag = getPositionControlFlag()
+            basic.pause(30)
+        }
     }
     /**
      * Sets the finch to turn in the given direction at given speed for given distance
@@ -416,25 +427,20 @@ namespace finch {
         let positionControlFlag = 0;
         l_dist = Math.round(ANGLE_TICKS_FACTOR * angle)
         r_dist = Math.round(ANGLE_TICKS_FACTOR * angle)
-        speed = speed * 1.27
-        if (speed > MAXIMUM_SPEED) {
-            speed = MAXIMUM_SPEED
-        }
-        else (speed <MINIMUM_SPEED)
-        {
-            speed = MINIMUM_SPEED
-        }
-        if (direction == RLDir.Right) {
-            l_speed = speed & 0x7F
-            r_speed = speed | 0x80
+        speed = Math.round(speed * 1.27)
+        //basic.showNumber(speed)
+        if (direction == RLDir.Left) {
+            l_speed = (0x7F & speed);
+            r_speed = (0x80 | speed);
         } else {
-            l_speed = speed | 0x80
-            r_speed = speed & 0x7F
+            l_speed = (0x80 | speed);
+            r_speed = (0x7F & speed);
         }
+        //basic.showNumber(l_speed)
         sendMotor(l_speed, l_dist, r_speed, r_dist)
-
-        while(positionControlFlag == 0)
-        {
+        basic.pause(50)
+        positionControlFlag = getPositionControlFlag()
+        while (positionControlFlag == 1) {
             positionControlFlag = getPositionControlFlag()
             basic.pause(30)
         }
@@ -458,9 +464,9 @@ namespace finch {
         let l_tick_speed = 0
         let r_tick_speed = 0
 
-        l_speed = l_speed * 1.27
-        r_speed = r_speed * 1.27
-
+        l_speed = Math.round(l_speed * 1.27)
+        r_speed = Math.round(r_speed * 1.27)
+        /*
         //Left Motor
         if (l_speed > MAXIMUM_SPEED) {
             l_speed = MAXIMUM_SPEED
@@ -468,6 +474,7 @@ namespace finch {
         else if (l_speed < MINIMUM_SPEED) {
             l_speed = MINIMUM_SPEED
         }
+        */
 
         l_tick_speed = Math.round(Math.abs(l_speed) * SPEED_CONVERSION_FACTOR)
         if (l_speed > 0) {
@@ -500,6 +507,7 @@ namespace finch {
     //% weight=24 blockId="stopMotors" block="Finch Stop"
     export function stopMotors(): void {
         sendMotor(0, 1, 0, 1)
+        stop()
     }
 
 
@@ -563,7 +571,7 @@ namespace finch {
      * @param encoder Right or Left
      */
     //% weight=22 blockId="resetEncoders" block="Finch Reset Encoders"
-    export function resetEncoders(): void{ 
+    export function resetEncoders(): void {
         getSensors()
         rightEncoderOffset = (sensor_vals[12] << 16 | sensor_vals[13] << 8 | sensor_vals[14])
         leftEncoderOffset = (sensor_vals[9] << 16 | sensor_vals[10] << 8 | sensor_vals[11])
@@ -577,7 +585,7 @@ namespace finch {
     export function getPositionControlFlag(): number {
         getSensors()
         let return_val = 0
-        return_val = ((sensor_vals[6]&0x80) >>7)
+        return_val = ((sensor_vals[6] & 0x80) >> 7)
         return return_val
     }
 
@@ -591,9 +599,9 @@ namespace finch {
         getSensors()
         let return_val = 0
         if (encoder = RLDir.Right) {
-            return_val = rightEncoderOffset - (sensor_vals[12] << 16 | sensor_vals[13] << 8 | sensor_vals[14])          
+            return_val = (sensor_vals[12] << 16 | sensor_vals[13] << 8 | sensor_vals[14]) - rightEncoderOffset
         } else {
-            return_val = leftEncoderOffset  - (sensor_vals[9] << 16 | sensor_vals[10] << 8 | sensor_vals[11])
+            return_val = (sensor_vals[9] << 16 | sensor_vals[10] << 8 | sensor_vals[11]) - leftEncoderOffset
         }
         return return_val
     }
