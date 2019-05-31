@@ -43,10 +43,12 @@ namespace finch {
     let SET_LED_COMMAND = 0xD0
     let SET_MOTOR_COMMAND = 0xD2
     let SET_SINGLE_LED_COMMAND = 0xD3
-    let CONVERSION_FACTOR_CM_TICKS = 51.02
-    let MINIMUM_SPEED = 0          //cm/sec
-    let MAXIMUM_SPEED = 45        //cm/sec
-    let SPEED_CONVERSION_FACTOR = 4.04
+
+    let CONVERSION_FACTOR_CM_TICKS = 50.95
+    let ANGLE_TICKS_FACTOR = 2.805
+    let MINIMUM_SPEED = 0
+    let MAXIMUM_SPEED = 127
+    let SPEED_CONVERSION_FACTOR = 2.805
     let BATT_FACTOR = 0.40
     let MOSI_PIN = DigitalPin.P15
     let MISO_PIN = DigitalPin.P14
@@ -61,6 +63,8 @@ namespace finch {
     let beakLEDG = 0
     let beakLEDB = 0
 
+    let leftEncoderOffset = 0
+    let rightEncoderOffset = 0
 
     let sensor_vals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];  //16 bytes
     let ledOutputs = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];  //15 bytes
@@ -136,7 +140,7 @@ namespace finch {
         control.waitMicros(waitTime_Initial)
         pins.digitalWritePin(SLAVESELECT_PIN, 0)
         control.waitMicros(waitTime_1)
-        pins.spiWrite(SET_LED_COMMAND)                  //1
+        pins.spiWrite(SET_LED_COMMAND)         //1
         control.waitMicros(waitTime_2)
         pins.spiWrite(beakLEDR)                //2
         control.waitMicros(waitTime_2)
@@ -144,29 +148,29 @@ namespace finch {
         control.waitMicros(waitTime_2)
         pins.spiWrite(beakLEDB)                //4
         control.waitMicros(waitTime_2)
-        pins.spiWrite(red)                //5
+        pins.spiWrite(red)                     //5
         control.waitMicros(waitTime_2)
-        pins.spiWrite(green)                //6
+        pins.spiWrite(green)                   //6
         control.waitMicros(waitTime_2)
-        pins.spiWrite(blue)                //7
+        pins.spiWrite(blue)                    //7
         control.waitMicros(waitTime_2)
-        pins.spiWrite(red)                //8
+        pins.spiWrite(red)                     //8
         control.waitMicros(waitTime_2)
-        pins.spiWrite(green)                //9
+        pins.spiWrite(green)                   //9
         control.waitMicros(waitTime_2)
-        pins.spiWrite(blue)                //10
+        pins.spiWrite(blue)                   //10
         control.waitMicros(waitTime_2)
-        pins.spiWrite(red)                //11
+        pins.spiWrite(red)                   //11
         control.waitMicros(waitTime_2)
-        pins.spiWrite(green)                //12
+        pins.spiWrite(green)                  //12
         control.waitMicros(waitTime_2)
-        pins.spiWrite(blue)                //13
+        pins.spiWrite(blue)                  //13
         control.waitMicros(waitTime_2)
-        pins.spiWrite(red)                //14
+        pins.spiWrite(red)                   //14
         control.waitMicros(waitTime_2)
-        pins.spiWrite(green)                //15
+        pins.spiWrite(green)                 //15
         control.waitMicros(waitTime_2)
-        pins.spiWrite(blue)                //16
+        pins.spiWrite(blue)                  //16
         control.waitMicros(waitTime_1)
         pins.digitalWritePin(SLAVESELECT_PIN, 1)
         readyToSend = true
@@ -181,7 +185,7 @@ namespace finch {
         control.waitMicros(waitTime_1)
         pins.spiWrite(SET_SINGLE_LED_COMMAND)       //1
         control.waitMicros(waitTime_2)
-        pins.spiWrite(portNumber)                  //Beak LED 2
+        pins.spiWrite(portNumber)                   //2
         control.waitMicros(waitTime_2)
         pins.spiWrite(red)                          //3
         control.waitMicros(waitTime_2)
@@ -409,14 +413,33 @@ namespace finch {
         let l_speed = 0
         let r_dist = 0
         let l_dist = 0
+        let positionControlFlag = 0;
+        l_dist = Math.round(ANGLE_TICKS_FACTOR * angle)
+        r_dist = Math.round(ANGLE_TICKS_FACTOR * angle)
+        speed = speed * 1.27
+        if (speed > MAXIMUM_SPEED) {
+            speed = MAXIMUM_SPEED
+        }
+        else (speed <MINIMUM_SPEED)
+        {
+            speed = MINIMUM_SPEED
+        }
         if (direction == RLDir.Right) {
-            l_speed = speed
-            r_speed = -speed
+            l_speed = speed & 0x7F
+            r_speed = speed | 0x80
         } else {
-            l_speed = -speed
-            r_speed = speed
+            l_speed = speed | 0x80
+            r_speed = speed & 0x7F
         }
         sendMotor(l_speed, l_dist, r_speed, r_dist)
+
+        while(positionControlFlag == 0)
+        {
+            positionControlFlag = getPositionControlFlag()
+            basic.pause(30)
+        }
+
+
     }
 
     /**
@@ -539,14 +562,38 @@ namespace finch {
      * Returns a value in rotations.
      * @param encoder Right or Left
      */
+    //% weight=22 blockId="resetEncoders" block="Finch Reset Encoders"
+    export function resetEncoders(): void{ 
+        getSensors()
+        rightEncoderOffset = (sensor_vals[12] << 16 | sensor_vals[13] << 8 | sensor_vals[14])
+        leftEncoderOffset = (sensor_vals[9] << 16 | sensor_vals[10] << 8 | sensor_vals[11])
+    }
+
+    /**
+     * Returns the finch encoder value specified. Forward is +, Back is -
+     * Returns a value in rotations.
+     * @param encoder Right or Left
+     */
+    export function getPositionControlFlag(): number {
+        getSensors()
+        let return_val = 0
+        return_val = ((sensor_vals[6]&0x80) >>7)
+        return return_val
+    }
+
+    /**
+     * Returns the finch encoder value specified. Forward is +, Back is -
+     * Returns a value in rotations.
+     * @param encoder Right or Left
+     */
     //% weight=22 blockId="getEncoder" block="Finch %encoder| Encoder"
     export function getEncoder(encoder: RLDir): number {
         getSensors()
         let return_val = 0
         if (encoder = RLDir.Right) {
-            return_val = (sensor_vals[12] << 16 | sensor_vals[13] << 8 | sensor_vals[14])
+            return_val = rightEncoderOffset - (sensor_vals[12] << 16 | sensor_vals[13] << 8 | sensor_vals[14])          
         } else {
-            return_val = (sensor_vals[9] << 16 | sensor_vals[10] << 8 | sensor_vals[11])
+            return_val = leftEncoderOffset  - (sensor_vals[9] << 16 | sensor_vals[10] << 8 | sensor_vals[11])
         }
         return return_val
     }
