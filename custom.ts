@@ -598,7 +598,7 @@ namespace finch {
     export function getEncoder(encoder: RLDir): number {
         getSensors()
         let return_val = 0
-        if (encoder = RLDir.Right) {
+        if (encoder == RLDir.Right) {
             return_val = (sensor_vals[12] << 16 | sensor_vals[13] << 8 | sensor_vals[14]) - rightEncoderOffset
         } else {
             return_val = (sensor_vals[9] << 16 | sensor_vals[10] << 8 | sensor_vals[11]) - leftEncoderOffset
@@ -625,7 +625,7 @@ namespace finch {
     export function getLight(light: RLDir): number {
         getSensors()
         let return_val = 0
-        if (light = RLDir.Right) {
+        if (light == RLDir.Right) {
             return_val = sensor_vals[5]
         } else {
             return_val = sensor_vals[4]
@@ -642,12 +642,12 @@ namespace finch {
     export function getLine(line: RLDir): number {
         getSensors()
         let return_val = 0
-        if (line = RLDir.Right) {
-            return_val = sensor_vals[7]
+        if (line == RLDir.Right) {
+            return_val = (sensor_vals[7] & 0x7F)
         } else {
-            return_val = sensor_vals[6]
+            return_val = (sensor_vals[6] & 0x7F)
         }
-        return_val = return_val * 100 / 255
+        return_val = return_val * 100 / 127
         return Math.round(return_val)
     }
 
