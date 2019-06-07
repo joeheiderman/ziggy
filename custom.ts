@@ -381,9 +381,9 @@ namespace finch {
      * @param speed the speed as a percent for the motor [0 to 15]
      * @param distance the discance to travel in cm
      */
-    //% weight=27 blockId="setMove" block="Finch Move %direction| at %speed| \\% for %distance|cm"
+    //% weight=27 blockId="setMove" block="Finch Move %direction| %distance|cm at %speed| \\%"
     //% speed.min=0 speed.max=100
-    export function setMove(direction: MoveDir, speed: number = 50, distance: number = 10): void {
+    export function setMove(direction: MoveDir, distance: number = 10, speed: number = 50): void {
         let velocity = 0
         let tick_speed = 0
         let positionControlFlag = 0
@@ -416,10 +416,10 @@ namespace finch {
      * @param speed the speed as a percent for the motor [0 to 100]
      * @param angle the angle to turn in degrees
      */
-    //% weight=26 blockId="setTurn" block="Finch Turn %direction| at %speed| \\% for %angle|°"
+    //% weight=26 blockId="setTurn" block="Finch Turn %direction| %angle|° at %speed| \\%"
     //% speed.min=0 speed.max=100
     //% angle.min=0 angle.max=180
-    export function setTurn(direction: RLDir, speed: number = 50, angle: number = 90): void {
+    export function setTurn(direction: RLDir, angle: number = 90, speed: number = 50): void {
         let r_speed = 0
         let l_speed = 0
         let r_dist = 0
@@ -453,7 +453,7 @@ namespace finch {
      * @param speed the speed as a percent for the motor [0 to 15]
      * @param distance the discance to travel in cm
      */
-    //% weight=25 blockId="startMotors" block="Finch L %l_speed| \\% R %r_speed| \\%"
+    //% weight=25 blockId="startMotors" block="Finch Wheels L %l_speed| \\% R %r_speed| \\%"
     //% l_speed.min=-100 l_speed.max=100
     //% r_speed.min=-100 r_speed.max=100
     export function startMotors(l_speed: number = 50, r_speed: number = 50): void {
