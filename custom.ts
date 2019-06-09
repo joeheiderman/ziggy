@@ -45,10 +45,10 @@ namespace finch {
     let SET_SINGLE_LED_COMMAND = 0xD3
 
     let CONVERSION_FACTOR_CM_TICKS = 50.95
-    let ANGLE_TICKS_FACTOR = 2.805
+    let ANGLE_TICKS_FACTOR = 4.44
     let MINIMUM_SPEED = -127
     let MAXIMUM_SPEED = 127
-    let SPEED_CONVERSION_FACTOR = 2.805
+    let SPEED_CONVERSION_FACTOR = 0.45
     let BATT_FACTOR = 0.40
     let MOSI_PIN = DigitalPin.P15
     let MISO_PIN = DigitalPin.P14
@@ -257,7 +257,6 @@ namespace finch {
             beakLEDB = blue * 255 / 100
 
             sendSingleLED(portNumber, red, green, blue)
-
         }
     }
 
@@ -393,8 +392,7 @@ namespace finch {
         if (speed < MINIMUM_SPEED) {
             speed = MINIMUM_SPEED
         }
-        //tick_speed = Math.round(speed * SPEED_CONVERSION_FACTOR)
-
+        speed = Math.round(speed * SPEED_CONVERSION_FACTOR)
         distance = Math.round(distance * CONVERSION_FACTOR_CM_TICKS)
         if (direction == MoveDir.Forward) {
             velocity = (0x80 | speed);
@@ -427,7 +425,7 @@ namespace finch {
         let positionControlFlag = 0;
         l_dist = Math.round(ANGLE_TICKS_FACTOR * angle)
         r_dist = Math.round(ANGLE_TICKS_FACTOR * angle)
-        speed = Math.round(speed * 1.27)
+        speed = Math.round(speed * SPEED_CONVERSION_FACTOR)
         //basic.showNumber(speed)
         if (direction == RLDir.Left) {
             l_speed = (0x7F & speed);
@@ -464,8 +462,9 @@ namespace finch {
         let l_tick_speed = 0
         let r_tick_speed = 0
 
-        l_speed = Math.round(l_speed * 1.27)
-        r_speed = Math.round(r_speed * 1.27)
+        l_speed = Math.round(l_speed * SPEED_CONVERSION_FACTOR)
+        r_speed = Math.round(r_speed * SPEED_CONVERSION_FACTOR)
+
         /*
         //Left Motor
         if (l_speed > MAXIMUM_SPEED) {
@@ -476,7 +475,7 @@ namespace finch {
         }
         */
 
-        l_tick_speed = Math.round(Math.abs(l_speed) * SPEED_CONVERSION_FACTOR)
+        //l_tick_speed = Math.round(Math.abs(l_speed) * SPEED_CONVERSION_FACTOR)
         if (l_speed > 0) {
             l_velocity = (0x80 | l_tick_speed);
         }
@@ -491,7 +490,7 @@ namespace finch {
         else if (r_speed < MINIMUM_SPEED) {
             r_speed = MINIMUM_SPEED
         }
-        r_tick_speed = Math.round(Math.abs(r_speed) * SPEED_CONVERSION_FACTOR)
+        //r_tick_speed = Math.round(Math.abs(r_speed) * SPEED_CONVERSION_FACTOR)
         if (r_speed > 0) {
             r_velocity = (0x80 | r_tick_speed);
         }
