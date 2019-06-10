@@ -462,10 +462,7 @@ namespace finch {
         let l_tick_speed = 0
         let r_tick_speed = 0
 
-        l_speed = Math.round(l_speed * SPEED_CONVERSION_FACTOR)
-        r_speed = Math.round(r_speed * SPEED_CONVERSION_FACTOR)
-
-        /*
+        
         //Left Motor
         if (l_speed > MAXIMUM_SPEED) {
             l_speed = MAXIMUM_SPEED
@@ -473,9 +470,9 @@ namespace finch {
         else if (l_speed < MINIMUM_SPEED) {
             l_speed = MINIMUM_SPEED
         }
-        */
+        
 
-        //l_tick_speed = Math.round(Math.abs(l_speed) * SPEED_CONVERSION_FACTOR)
+        l_tick_speed = Math.round(Math.abs(l_speed) * SPEED_CONVERSION_FACTOR)
         if (l_speed > 0) {
             l_velocity = (0x80 | l_tick_speed);
         }
@@ -484,14 +481,15 @@ namespace finch {
         }
 
         //Right Motor
-        if (r_speed > MAXIMUM_SPEED) {
+        if (r_speed >= MAXIMUM_SPEED) {
             r_speed = MAXIMUM_SPEED
         }
         else if (r_speed < MINIMUM_SPEED) {
             r_speed = MINIMUM_SPEED
         }
-        //r_tick_speed = Math.round(Math.abs(r_speed) * SPEED_CONVERSION_FACTOR)
-        if (r_speed > 0) {
+
+        r_tick_speed = Math.round(Math.abs(r_speed) * SPEED_CONVERSION_FACTOR)
+        if (r_speed >= 0) {
             r_velocity = (0x80 | r_tick_speed);
         }
         else {
