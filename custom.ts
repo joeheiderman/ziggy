@@ -81,7 +81,7 @@ namespace finch {
      * This block is required for every Finch program.
      */
     //% weight=32 blockId="startFN" block="Start Finch"
-    export function startFinch(): void {  
+    export function startFinch(): void {
         pins.analogWritePin(AnalogPin.P0, 0)
         //Wait to complete the bootloader routine
         basic.pause(waitTime_Start);                //To avoid the bootloader
@@ -609,7 +609,7 @@ namespace finch {
     /**
      * Reads the distance to the closest obstacle in centimeters.
      */
-    //% weight=21 blockId="getDistance" block="Finch Distance (cm)"
+    //% weight=23 blockId="getDistance" block="Finch Distance (cm)"
     export function getDistance(): number {
         getSensors()
         // Scale distance value to cm
@@ -621,7 +621,7 @@ namespace finch {
      * Reads the value of the right or left Finch light sensor from 0 to 100.
      * @param light Right or Left
      */
-    //% weight=20 blockId="getLight" block="Finch %light| Light"
+    //% weight=22 blockId="getLight" block="Finch %light| Light"
     export function getLight(light: RLDir): number {
         getSensors()
         let return_val = 0
@@ -638,7 +638,7 @@ namespace finch {
      * Reads the value of the right or left Finch line tracking sensor from 0 to 100.
      * @param line Right or Left
      */
-    //% weight=19 blockId="getLine" block="Finch %line| Line"
+    //% weight=21 blockId="getLine" block="Finch %line| Line"
     export function getLine(line: RLDir): number {
         getSensors()
         let return_val = 0
@@ -655,7 +655,7 @@ namespace finch {
          * Sets the value of the left and right Finch wheel encoders to zero.
          * @param encoder Right or Left
          */
-    //% weight=22 blockId="resetEncoders" block="Finch Reset Encoders"
+    //% weight=20 blockId="resetEncoders" block="Finch Reset Encoders"
     export function resetEncoders(): void {
         resetEncodersSPI();
     }
@@ -677,7 +677,7 @@ namespace finch {
      * Returns a value in rotations.
      * @param encoder Right or Left
      */
-    //% weight=22 blockId="getEncoder" block="Finch %encoder| Encoder"
+    //% weight=19 blockId="getEncoder" block="Finch %encoder| Encoder"
     export function getEncoder(encoder: RLDir): number {
         getSensors()
         let return_val = 0
