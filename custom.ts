@@ -273,7 +273,7 @@ namespace finch {
     }
 
     /**
-     * Sets the tri-color LED in the beak to the color specified by red, green, and blue brightness values. The values range from 0% to 100%.
+     * Sets the tri-color LED in the Finch beak to the color specified by red, green, and blue brightness values. The values range from 0% to 100%.
      * @param red the % brightness of the red LED element [0-100]
      * @param green the % brightness of the green LED element [0-100]
      * @param blue the % brightness of the blue LED element [0-100]
@@ -313,7 +313,7 @@ namespace finch {
     }
 
     /**
-     * Sets the color of one or all of the tail leds
+     * Sets one or all of the tri-color LEDs in the Finch tail  to the color specified by red, green, and blue brightness values. The values range from 0% to 100%.
      * @param port
      * @param red the % brightness of the red LED element [0-100]
      * @param green the % brightness of the green LED element [0-100]
@@ -420,7 +420,7 @@ namespace finch {
     }
 
     /**
-     * Sets the finch to move in the given direction at given speed for given distance
+     * Moves the Finch forward or back a given distance at a given speed (0-100%).
      * @param direction Forward or Backward
      * @param distance the discance to travel in cm, eg:10
      * @param speed the speed as a percent for the motor [0 to 40], eg:50
@@ -454,7 +454,7 @@ namespace finch {
         }
     }
     /**
-     * Sets the finch to turn in the given direction at given speed for given distance
+     * Turns the Finch right or left a given angle at a given speed (0-100%).
      * @param direction Right or Left
      * @param angle the angle to turn in degrees,eg:90
      * @param speed the speed as a percent for the motor [0 to 100],eg:50
@@ -492,7 +492,7 @@ namespace finch {
     }
 
     /**
-     * Starts the finch moving at given speed
+     * Sets the rotation speeds of the left and right Finch wheels to values from -100 to 100%.
      * @param l_speed the speed of the left motor
      * @param r_speed the speed of the right motor
      */
@@ -544,7 +544,7 @@ namespace finch {
     }
 
     /**
-     * Stops the finch motors
+     * Stops the Finch wheels.
      */
     //% weight=24 blockId="stopMotors" block="Finch Stop"
     export function stopMotors(): void {
@@ -607,18 +607,63 @@ namespace finch {
         }
     }
 
+
     /**
-     * Returns the finch encoder value specified. Forward is +, Back is -
-     * Returns a value in rotations.
-     * @param encoder Right or Left
+     * Reads the distance to the closest obstacle in centimeters.
      */
+    //% weight=21 blockId="getDistance" block="Finch Distance (cm)"
+    export function getDistance(): number {
+        getSensors()
+        // Scale distance value to cm
+        let return_val = ((sensor_vals[2] << 8 | sensor_vals[3]) * 0.0919)
+        return Math.round(return_val)
+    }
+
+    /**
+     * Reads the value of the right or left Finch light sensor from 0 -100.
+     * @param light Right or Left
+     */
+    //% weight=20 blockId="getLight" block="Finch %light| Light"
+    export function getLight(light: RLDir): number {
+        getSensors()
+        let return_val = 0
+        if (light == RLDir.Right) {
+            return_val = sensor_vals[5]
+        } else {
+            return_val = sensor_vals[4]
+        }
+        return_val = return_val * 100 / 255
+        return Math.round(return_val)
+    }
+
+    /**
+     * Reads the value of the right or left Finch line tracking sensor from 0 -100.
+     * @param line Right or Left
+     */
+    //% weight=19 blockId="getLine" block="Finch %line| Line"
+    export function getLine(line: RLDir): number {
+        getSensors()
+        let return_val = 0
+        if (line == RLDir.Right) {
+            return_val = (sensor_vals[7] & 0x7F)
+        } else {
+            return_val = (sensor_vals[6] & 0x7F)
+        }
+        return_val = return_val * 100 / 127
+        return Math.round(return_val)
+    }
+
+    /**
+         * Sets the value of the left and right Finch wheel encoders to zero.
+         * @param encoder Right or Left
+         */
     //% weight=22 blockId="resetEncoders" block="Finch Reset Encoders"
     export function resetEncoders(): void {
         resetEncodersSPI();
     }
 
     /**
-     * Returns the finch encoder value specified. Forward is +, Back is -
+     * Reads the finch encoder value specified. Forward is +, Back is -
      * Returns a value in rotations.
      * @param encoder Right or Left
      */
@@ -630,7 +675,7 @@ namespace finch {
     }
 
     /**
-     * Returns the finch encoder value specified. Forward is +, Back is -
+     * Reads the number of rotations that the right or left wheel has turned.
      * Returns a value in rotations.
      * @param encoder Right or Left
      */
@@ -651,51 +696,6 @@ namespace finch {
         return_val = (return_val / NO_TICKS_ROTATION)
         Math.roundWithPrecision(return_val, 4)
         return return_val
-    }
-
-    /**
-     * Returns the distance to the closest obstacle in cm
-     */
-    //% weight=21 blockId="getDistance" block="Finch Distance (cm)"
-    export function getDistance(): number {
-        getSensors()
-        // Scale distance value to cm
-        let return_val = ((sensor_vals[2] << 8 | sensor_vals[3]) * 0.0919)
-        return Math.round(return_val)
-    }
-
-    /**
-     * Returns brightness as a value 0-100
-     * @param light Right or Left
-     */
-    //% weight=20 blockId="getLight" block="Finch %light| Light"
-    export function getLight(light: RLDir): number {
-        getSensors()
-        let return_val = 0
-        if (light == RLDir.Right) {
-            return_val = sensor_vals[5]
-        } else {
-            return_val = sensor_vals[4]
-        }
-        return_val = return_val * 100 / 255
-        return Math.round(return_val)
-    }
-
-    /**
-     * Returns a value 0-100
-     * @param line Right or Left
-     */
-    //% weight=19 blockId="getLine" block="Finch %line| Line"
-    export function getLine(line: RLDir): number {
-        getSensors()
-        let return_val = 0
-        if (line == RLDir.Right) {
-            return_val = (sensor_vals[7] & 0x7F)
-        } else {
-            return_val = (sensor_vals[6] & 0x7F)
-        }
-        return_val = return_val * 100 / 127
-        return Math.round(return_val)
     }
 
     /**
