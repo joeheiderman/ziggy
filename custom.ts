@@ -80,14 +80,13 @@ namespace finch {
     /**
      * This block is required for every Finch program.
      */
-
     //% weight=32 blockId="startFN" block="Start Finch"
     export function startFinch(): void {
-        /* Wait to complete the bootloader routine
-            * Initiliaze the SPI with the respective pins with 1MHz clock
-            * Send stop if anything is running from previous state of the device
-            * Reset the encoders which also notes down the current encoder value
-        */
+        //Wait to complete the bootloader routine
+        //Initiliaze the SPI with the respective pins with 1MHz clock
+        //Send stop if anything is running from previous state of the device
+        //Reset the encoders which also notes down the current encoder value
+        
         pins.analogWritePin(AnalogPin.P0, 0)
         basic.pause(waitTime_Start);                //To avoid the bootloader
         pins.digitalWritePin(SLAVESELECT_PIN, 1)
@@ -620,7 +619,7 @@ namespace finch {
     }
 
     /**
-     * Reads the value of the right or left Finch light sensor from 0 -100.
+     * Reads the value of the right or left Finch light sensor from 0 to 100.
      * @param light Right or Left
      */
     //% weight=20 blockId="getLight" block="Finch %light| Light"
@@ -637,7 +636,7 @@ namespace finch {
     }
 
     /**
-     * Reads the value of the right or left Finch line tracking sensor from 0 -100.
+     * Reads the value of the right or left Finch line tracking sensor from 0 to 100.
      * @param line Right or Left
      */
     //% weight=19 blockId="getLine" block="Finch %line| Line"
