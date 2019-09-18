@@ -81,19 +81,18 @@ namespace finch {
      * This block is required for every Finch program.
      */
     //% weight=32 blockId="startFN" block="Start Finch"
-    export function startFinch(): void {
-        //Wait to complete the bootloader routine
-        //Initiliaze the SPI with the respective pins with 1MHz clock
-        //Send stop if anything is running from previous state of the device
-        //Reset the encoders which also notes down the current encoder value
-        
+    export function startFinch(): void {  
         pins.analogWritePin(AnalogPin.P0, 0)
+        //Wait to complete the bootloader routine
         basic.pause(waitTime_Start);                //To avoid the bootloader
+        //Initiliaze the SPI with the respective pins with 1MHz clock
         pins.digitalWritePin(SLAVESELECT_PIN, 1)
         pins.spiPins(MOSI_PIN, MISO_PIN, SCK_PIN)
         pins.spiFormat(8, 0)
         pins.spiFrequency(1000000)
+        //Send stop if anything is running from previous state of the device
         stop()
+        //Reset the encoders which also notes down the current encoder value
         resetEncoders()
         readyToSend = true
         //Clear or do something with neopixel LED
