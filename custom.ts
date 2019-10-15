@@ -661,8 +661,7 @@ namespace finch {
     }
 
     /**
-     * Reads the finch encoder value specified. Forward is +, Back is -
-     * Returns a value in rotations.
+     * Reads the finch encoder value specified. Forward is +, Back is -.
      * @param encoder Right or Left
      */
     export function getPositionControlFlag(): number {
