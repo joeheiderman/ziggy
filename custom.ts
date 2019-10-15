@@ -673,7 +673,6 @@ namespace finch {
 
     /**
      * Reads the number of rotations that the right or left wheel has turned.
-     * Returns a value in rotations.
      * @param encoder Right or Left
      */
     //% weight=19 blockId="getEncoder" block="Finch %encoder| Encoder"
