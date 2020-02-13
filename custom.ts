@@ -25,6 +25,30 @@ enum TailPort {
     All = 5
 }
 
+enum AorM {
+    //% block="Accelerometer"
+    Accelerometer,
+    //% block="Magnetometer"
+    Magnetometer
+}
+
+enum Orientation {
+    //% block="Beak Up"
+    BeakUp,
+    //% block="Beak Down"
+    BeakDown,
+    //% block="Tilt Left"
+    TiltLeft,
+    //% block="Tilt Right"
+    TiltRight,
+    //% block="Level"
+    Level,
+    //% block="Upside Down"
+    UpsideDown,
+    //% block="Shake"
+    Shake
+}
+
 
 /**
  * Blocks for Controlling a Finch
@@ -703,5 +727,137 @@ namespace finch {
         getSensors()
         let return_val = BATT_FACTOR * (sensor_vals[8]) / 10
         return Math.round(return_val)
+    }
+
+    /**
+     * Reads the value of the Accelerometer or Magnetometer and reports it
+     * in the finch reference frame.
+     * @param type Accelerometer or Magnetometer
+     * @param dim Dimension to read - x, y, z, or strength
+     */
+    //% weight=17 blockId="getFinchAM" block="Finch %type| %dim|"
+    export function getFinchAM(type: AorM, dim: Dimension): number {
+      switch (type) {
+        case AorM.Accelerometer:
+          return getFinchAccel(dim)
+        case AorM.Magnetometer:
+          return getFinchMag(dim)
+      }
+    }
+
+    /**
+     * Reads the value of the Accelerometer and reports it
+     * in the finch reference frame.
+     * X-finch = x-micro:bit
+     * Y-finch = y-micro:bit*cos 40° - z-micro:bit*sin 40°
+     * Z-finch = y-micro:bit*sin 40° + z-micro:bit* cos 40°
+     * @param dim Dimension to read - x, y, z, or strength
+     */
+    export function getFinchAccel(dim: Dimension): number {
+      switch (dim) {
+        case Dimension.Strength:
+        case Dimension.X:   //both dim x and strength report the microbit value
+          return -(input.acceleration(dim))
+        case Dimension.Y:
+        case Dimension.Z:
+          const mbY = -(input.acceleration(Dimension.Y))
+          const mbZ = input.acceleration(Dimension.Z)
+          const rad = 40 * Math.PI / 180 //40° in radians
+
+          let accVal = 0
+          switch(dim) {
+            case Dimension.Y:
+              accVal = (mbY*Math.cos(rad) - mbZ*Math.sin(rad))
+              break;
+            case Dimension.Z:
+              accVal = (mbY*Math.sin(rad) + mbZ*Math.cos(rad))
+              break;
+          }
+          return accVal
+      }
+    }
+
+    /**
+     * Reads the value of the Magnetometer and reports it
+     * in the finch reference frame.
+     * X-finch = x-micro:bit
+     * Y-finch = y-micro:bit*cos 40° + z-micro:bit*sin 40°
+     * Z-finch = z-micro:bit* cos 40° - y-micro:bit*sin 40°
+     * @param dim Dimension to read - x, y, z, or strength
+     */
+    export function getFinchMag(dim: Dimension): number {
+      switch (dim) {
+        case Dimension.Strength:
+        case Dimension.X:   //both dim x and strength report the microbit value
+          return -(input.magneticForce(dim))
+        case Dimension.Y:
+        case Dimension.Z:
+          const mbY = -(input.magneticForce(Dimension.Y))
+          const mbZ = -(input.magneticForce(Dimension.Z))
+          const rad = 40 * Math.PI / 180 //40° in radians
+
+          let magVal = 0
+          switch(dim) {
+            case Dimension.Y:
+              magVal = (mbY*Math.cos(rad) + mbZ*Math.sin(rad))
+              break;
+            case Dimension.Z:
+              magVal = (mbZ*Math.cos(rad) - mbY*Math.sin(rad))
+              break;
+          }
+          return magVal
+      }
+    }
+
+    /**
+     * Reads the value of the compass in the finch reference frame
+     */
+    //% weight=16 blockId="getFinchCompass" block="Finch Compass"
+    export function getFinchCompass(): number {
+      const ax = getFinchAccel(Dimension.X)
+      const ay = getFinchAccel(Dimension.Y)
+      const az = getFinchAccel(Dimension.Z)
+      const mx = getFinchMag(Dimension.X)
+      const my = getFinchMag(Dimension.Y)
+      const mz = getFinchMag(Dimension.Z)
+
+      const phi = Math.atan(-ay / az)
+      const theta = Math.atan(ax / (ay * Math.sin(phi) + az * Math.cos(phi)))
+
+      const xp = mx
+      const yp = my * Math.cos(phi) - mz * Math.sin(phi)
+      const zp = my * Math.sin(phi) + mz * Math.cos(phi)
+
+      const xpp = xp * Math.cos(theta) + zp * Math.sin(theta)
+      const ypp = yp
+
+      const angle = 180.0 + ((Math.atan2(xpp, ypp)) * (180 / Math.PI)) //convert result to degrees
+
+      return ((Math.round(angle) + 180) % 360) //turn so that beak points north
+    }
+
+    /**
+     * Reads the value of the Accelerometer and returns true if the finch is
+     * in the given orientation.
+     */
+    //% weight=15 blockId="getFinchOrientation" block="Finch %orientation|"
+    export function getFinchOrientation(orientation: Orientation): boolean {
+      const threshold = 800 //0.8g
+      switch(orientation){
+        case Orientation.BeakUp:
+          return (getFinchAccel(Dimension.Y) > threshold)
+        case Orientation.BeakDown:
+          return (getFinchAccel(Dimension.Y) < -threshold)
+        case Orientation.TiltLeft:
+          return (getFinchAccel(Dimension.X) > threshold)
+        case Orientation.TiltRight:
+          return (getFinchAccel(Dimension.X) < -threshold)
+        case Orientation.Level:
+          return (getFinchAccel(Dimension.Z) < -threshold)
+        case Orientation.UpsideDown:
+          return (getFinchAccel(Dimension.Z) > threshold)
+        case Orientation.Shake:
+          return input.isGesture(Gesture.Shake)
+      }
     }
 }
