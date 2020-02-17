@@ -26,9 +26,9 @@ enum TailPort {
 }
 
 enum AorM {
-    //% block="Accelerometer"
+    //% block="Accelerometer (m/s²)"
     Accelerometer,
-    //% block="Magnetometer"
+    //% block="Magnetometer (μT)"
     Magnetometer
 }
 
@@ -82,6 +82,7 @@ namespace finch {
     let SPEED_CONVERSION_FACTOR = 0.45
     let BATT_FACTOR = 0.40
     let NO_TICKS_ROTATION = 800
+    let CONVERSION_FACTOR_MG_TO_MPS = 0.00980665 //convert mg to meters per second squared
 
     //SPI Pins
     let MOSI_PIN = DigitalPin.P15
@@ -491,8 +492,8 @@ namespace finch {
         }
 
         return_val = (return_val / NO_TICKS_ROTATION)
-        Math.roundWithPrecision(return_val, 4)
-        return return_val
+
+        return Math.roundWithPrecision(return_val, 1)
     }
 
     /**
@@ -518,9 +519,9 @@ namespace finch {
     export function getFinchAM(type: AorM, dim: Dimension): number {
       switch (type) {
         case AorM.Accelerometer:
-          return getFinchAccel(dim)
+          return Math.round(getFinchAccel(dim) * CONVERSION_FACTOR_MG_TO_MPS * 10) / 10
         case AorM.Magnetometer:
-          return getFinchMag(dim)
+          return Math.round( getFinchMag(dim) )
       }
     }
 
@@ -633,9 +634,9 @@ namespace finch {
         case Orientation.BeakDown:
           return (getFinchAccel(Dimension.Y) < -threshold)
         case Orientation.TiltLeft:
-          return (getFinchAccel(Dimension.X) > threshold)
-        case Orientation.TiltRight:
           return (getFinchAccel(Dimension.X) < -threshold)
+        case Orientation.TiltRight:
+          return (getFinchAccel(Dimension.X) > threshold)
         case Orientation.Level:
           return (getFinchAccel(Dimension.Z) < -threshold)
         case Orientation.UpsideDown:
