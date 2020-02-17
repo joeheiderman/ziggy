@@ -102,7 +102,8 @@ namespace finch {
 
 
     /**
-     * This block is required for every Finch program.
+     * This block is required for every Finch program. Put it in the on start
+     * block.
      */
     //% weight=32 blockId="startFN" block="Start Finch"
     export function startFinch(): void {
@@ -127,9 +128,9 @@ namespace finch {
      * 16 spi writes. If less than 16 values are specified, additional filler
      * values will be added.
      *
-     * @param  {number[]} cmdArray       array containing all values to send.
-     * @param  {number} fillerVal        value to use as filler
-     * @return {number[]}                16 return values from the write commands
+     * @param cmdArray       array containing all values to send.
+     * @param fillerVal      value to use as filler
+     * @return               16 return values from the write commands
      */
     export function sendCommand(cmdArray: number[], fillerVal: number = 0xFF) : number[] {
       if (cmdArray.length > 16) {
@@ -179,9 +180,9 @@ namespace finch {
      * and tail LEDs at once. Only the tail LEDs will be set to the value
      * specified. Beak LED will be set using the global variable.
      *
-     * @param  {number} red           red intensity
-     * @param  {number} green         green intensity
-     * @param  {number} blue          blue intensity
+     * @param red           red intensity
+     * @param green         green intensity
+     * @param blue          blue intensity
      */
     export function sendAllLEDs(red: number, green: number, blue: number): void {
         sendCommand([SET_LED_COMMAND, beakLEDR, beakLEDG, beakLEDB, red, green,
@@ -191,10 +192,10 @@ namespace finch {
     /**
      * sendSingleLED - Send a command to set a single LED
      *
-     * @param  {number} portNumber       the position of the LED to set
-     * @param  {number} red              red intensity
-     * @param  {number} green: number    green intensity
-     * @param  {number} blue: number     blue intensity
+     * @param portNumber       the position of the LED to set
+     * @param red              red intensity
+     * @param green: number    green intensity
+     * @param blue: number     blue intensity
      */
     export function sendSingleLED(portNumber: number, red: number, green: number, blue: number): void {
         sendCommand([SET_SINGLE_LED_COMMAND, portNumber, red, green, blue], FILLER_VALUE_2)
@@ -203,21 +204,21 @@ namespace finch {
     /**
      * capToBounds - Restrict a value between min and max values
      *
-     * @param  {number} value       value to be capped
-     * @param  {number} min         minimum value
-     * @param  {number} max         maximum value
-     * @return {number}             the final number
+     * @param value       value to be capped
+     * @param min         minimum value
+     * @param max         maximum value
+     * @return            the final number
      */
     export function capToBounds(value: number, min: number, max: number) : number {
       return Math.min(Math.max(value, min), max)
     }
 
     /**
-     * Sets the tri-color LED in the Finch beak to the color specified by red,
+     * Sets the tri-color LED in the Finch beak  to the color specified by red,
      * green, and blue brightness values. The values range from 0% to 100%.
-     * @param {number} red     the % brightness of the red LED element [0-100]
-     * @param {number} green   the % brightness of the green LED element [0-100]
-     * @param {number} blue    the % brightness of the blue LED element [0-100]
+     * @param red     the % brightness of the red LED element [0-100]
+     * @param green   the % brightness of the green LED element [0-100]
+     * @param blue    the % brightness of the blue LED element [0-100]
      */
     //% weight=29 blockId="setBeak" block="Finch Beak Red %red| Green %green| Blue %blue|"
     //% red.min=0 red.max=100
@@ -236,10 +237,10 @@ namespace finch {
      * Sets one or all of the tri-color LEDs in the Finch tail to the color
      * specified by red, green, and blue brightness values. The values range
      * from 0% to 100%.
-     * @param {TailPort} port  Tail position to set (1, 2, 3, 4 or all)
-     * @param {number} red     the % brightness of the red LED element [0-100]
-     * @param {number} green   the % brightness of the green LED element [0-100]
-     * @param {number} blue    the % brightness of the blue LED element [0-100]
+     * @param port    Tail position to set (1, 2, 3, 4 or all)
+     * @param red     the % brightness of the red LED element [0-100]
+     * @param green   the % brightness of the green LED element [0-100]
+     * @param blue    the % brightness of the blue LED element [0-100]
      */
     //% weight=28 blockId="setTail" block="Finch Tail %port| Red %red| Green %green| Blue %blue|"
     //% inlineInputMode=inline
@@ -261,10 +262,10 @@ namespace finch {
     /**
      * sendMotor - Sends finch motor command
      *
-     * @param  {number} l_velocity         left velocity
-     * @param  {number} l_dist             left distance (ticks)
-     * @param  {number} r_velocity         right velocity
-     * @param  {number} r_dist: number     right distance (ticks)
+     * @param l_velocity         left velocity
+     * @param l_dist             left distance (ticks)
+     * @param r_velocity         right velocity
+     * @param r_dist: number     right distance (ticks)
      */
     export function sendMotor(l_velocity: number, l_dist: number, r_velocity: number, r_dist: number): void {
 
@@ -280,10 +281,11 @@ namespace finch {
     }
 
     /**
-     * Moves the Finch forward or back a given distance at a given speed (0-100%).
-     * @param  {MoveDir} direction   Forward or Backward
-     * @param  {number}  distance    the discance to travel in cm, eg:10
-     * @param  {number}  speed       the speed as a percent for the motor [0 to 40], eg:50
+     * Moves the Finch forward or back for a given distance at a given speed
+     * (0-100%).
+     * @param direction   Forward or Backward
+     * @param distance    the discance to travel in cm, eg:10
+     * @param speed       the speed as a percent for the motor [0 to 40], eg:50
      */
     //% weight=27 blockId="setMove" block="Finch Move %direction| %distance|cm at %speed| \\%"
     //% speed.min=0 speed.max=100
@@ -310,9 +312,9 @@ namespace finch {
     }
     /**
      * Turns the Finch right or left a given angle at a given speed (0-100%).
-     * @param  {RLDir}  direction   Right or Left
-     * @param  {number} angle       the angle to turn in degrees,eg:90
-     * @param  {number} speed       the speed as a percent for the motor [0 to 100],eg:50
+     * @param direction   Right or Left
+     * @param angle       the angle to turn in degrees,eg:90
+     * @param speed       the speed as a percent for the motor [0 to 100],eg:50
      */
     //% weight=26 blockId="setTurn" block="Finch Turn %direction| %angle|° at %speed| \\%"
     //% speed.min=0 speed.max=100
@@ -345,9 +347,10 @@ namespace finch {
     }
 
     /**
-     * Sets the rotation speeds of the left and right Finch wheels to values from -100 to 100%.
-     * @param  {number} l_speed the speed of the left motor
-     * @param  {number} r_speed the speed of the right motor
+     * Sets the rotation speeds of the left and right Finch wheels to values
+     * from -100 to 100%.
+     * @param l_speed the speed of the left motor
+     * @param r_speed the speed of the right motor
      */
     //% weight=25 blockId="startMotors" block="Finch Wheels L %l_speed| \\% R %r_speed| \\%"
     //% l_speed.min=-100 l_speed.max=100
@@ -406,8 +409,7 @@ namespace finch {
     }
 
     /**
-     * Reads the distance to the closest obstacle in centimeters.
-     * @return  {number}  finch distance sensor reading in cm
+     * Returns the value of the Finch distance sensor in cm.
      */
     //% weight=23 blockId="getDistance" block="Finch Distance (cm)"
     export function getDistance(): number {
@@ -418,9 +420,8 @@ namespace finch {
     }
 
     /**
-     * Reads the value of the right or left Finch light sensor from 0 to 100.
-     * @param  {RLDir} light Right or Left
-     * @return {number}      finch light sensor reading
+     * Returns the value of the right or left Finch light sensor from 0 to 100.
+     * @param light  Right or Left
      */
     //% weight=22 blockId="getLight" block="Finch %light| Light"
     export function getLight(light: RLDir): number {
@@ -436,10 +437,9 @@ namespace finch {
     }
 
     /**
-     * Reads the value of the right or left Finch line tracking sensor from
-     * 0 to 100. White = higher number
-     * @param  {RLDir} line Right or Left
-     * @return {number}     finch line sensor reading
+     * Returns the value of the right or left Finch line tracking sensor from
+     * 0 to 100.
+     * @param line  Right or Left
      */
     //% weight=21 blockId="getLine" block="Finch %line| Line"
     export function getLine(line: RLDir): number {
@@ -455,7 +455,7 @@ namespace finch {
     }
 
     /**
-     * Sets the value of the left and right Finch wheel encoders to zero.
+     * Sets the value of the left and right encoders to zero.
      */
     //% weight=20 blockId="resetEncoders" block="Finch Reset Encoders"
     export function resetEncoders(): void {
@@ -464,7 +464,7 @@ namespace finch {
 
     /**
      * Reads the finch position control flag
-     * @return  {number}  1 if the finch is still moving, otherwise 0
+     * @return  1 if the finch is still moving, otherwise 0
      */
     export function getPositionControlFlag(): number {
         getSensors()
@@ -474,8 +474,8 @@ namespace finch {
     }
 
     /**
-     * Reads the number of rotations that the right or left wheel has turned.
-     * @param  {RLDir} encoder   Right or Left
+     * Returns the number of rotations that the right or left wheel has turned.
+     * @param encoder   Right or Left
      */
     //% weight=19 blockId="getEncoder" block="Finch %encoder| Encoder"
     export function getEncoder(encoder: RLDir): number {
@@ -499,7 +499,6 @@ namespace finch {
     /**
      * Reads the value of the battery in milliVolts. You may start to see
      * strange behavior when the value is below 4630 mV.
-     * @return  {number}  battery charge in mV
      */
     //% weight=18 blockId="getBattery" block="Finch Battery"
     export function getBattery(): number {
@@ -509,11 +508,10 @@ namespace finch {
     }
 
     /**
-     * Reads the value of the Accelerometer or Magnetometer and reports it
-     * in the finch reference frame.
-     * @param  {AorM}      type    Accelerometer or Magnetometer
-     * @param  {Dimension} dim     Dimension to read - x, y, z, or strength
-     * @return {number}            value of accelerometer or magnetometer requested
+     * Returns the value of the Finch accelerometer or magnetometer in the
+     * x, y, or z direction.
+     * @param  type    Accelerometer or Magnetometer
+     * @param  dim     Dimension to read - x, y, z, or strength
      */
     //% weight=17 blockId="getFinchAM" block="Finch %type| %dim|"
     export function getFinchAM(type: AorM, dim: Dimension): number {
@@ -531,8 +529,8 @@ namespace finch {
      * X-finch = x-micro:bit
      * Y-finch = y-micro:bit*cos 40° - z-micro:bit*sin 40°
      * Z-finch = y-micro:bit*sin 40° + z-micro:bit* cos 40°
-     * @param  {Dimension} dim  Dimension to read - x, y, z, or strength
-     * @return  {number}        accelerometer value in mg
+     * @param  dim  Dimension to read - x, y, z, or strength
+     * @return      accelerometer value in mg
      */
     export function getFinchAccel(dim: Dimension): number {
       switch (dim) {
@@ -564,8 +562,8 @@ namespace finch {
      * X-finch = x-micro:bit
      * Y-finch = y-micro:bit*cos 40° + z-micro:bit*sin 40°
      * Z-finch = z-micro:bit* cos 40° - y-micro:bit*sin 40°
-     * @param  {Dimension} dim Dimension to read - x, y, z, or strength
-     * @return  {number}       magnetometer value in uT
+     * @param dim   Dimension to read - x, y, z, or strength
+     * @return      magnetometer value in uT
      */
     export function getFinchMag(dim: Dimension): number {
       switch (dim) {
@@ -592,8 +590,7 @@ namespace finch {
     }
 
     /**
-     * Reads the value of the compass in the finch reference frame
-     * @return  {number}    compass heading in degrees
+     * Returns the value of the Finch compass in degrees.
      */
     //% weight=16 blockId="getFinchCompass" block="Finch Compass"
     export function getFinchCompass(): number {
@@ -620,10 +617,9 @@ namespace finch {
     }
 
     /**
-     * Reads the value of the Accelerometer and returns true if the finch is
-     * in the given orientation.
-     * @param   {Orientation} orientation  finch orientation
-     * @return  {boolean}   true if the finch is in the specified position
+     * Returns a Boolean value that indicates whether or not the Finch is in
+     * the selected position.
+     * @param  orientation  finch orientation
      */
     //% weight=15 blockId="getFinchOrientation" block="Finch %orientation|"
     export function getFinchOrientation(orientation: Orientation): boolean {
