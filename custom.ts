@@ -500,7 +500,7 @@ namespace finch {
      * Reads the value of the battery in milliVolts. You may start to see
      * strange behavior when the value is below 4630 mV.
      */
-    //% weight=18 blockId="getBattery" block="Finch Battery"
+    //% weight=15 blockId="getBattery" block="Finch Battery"
     export function getBattery(): number {
         getSensors()
         let return_val = BATT_FACTOR * (sensor_vals[8]) / 10
@@ -513,7 +513,7 @@ namespace finch {
      * @param  type    Accelerometer or Magnetometer
      * @param  dim     Dimension to read - x, y, z, or strength
      */
-    //% weight=17 blockId="getFinchAM" block="Finch %type| %dim|"
+    //% weight=16 blockId="getFinchAM" block="Finch %type| %dim|"
     export function getFinchAM(type: AorM, dim: Dimension): number {
       switch (type) {
         case AorM.Accelerometer:
@@ -592,7 +592,7 @@ namespace finch {
     /**
      * Returns the value of the Finch compass in degrees.
      */
-    //% weight=16 blockId="getFinchCompass" block="Finch Compass"
+    //% weight=17 blockId="getFinchCompass" block="Finch Compass"
     export function getFinchCompass(): number {
       const ax = getFinchAccel(Dimension.X)
       const ay = getFinchAccel(Dimension.Y)
@@ -621,7 +621,7 @@ namespace finch {
      * the selected position.
      * @param  orientation  finch orientation
      */
-    //% weight=15 blockId="getFinchOrientation" block="Finch %orientation|"
+    //% weight=18 blockId="getFinchOrientation" block="Finch %orientation|"
     export function getFinchOrientation(orientation: Orientation): boolean {
       const threshold = 800 //0.8g
       switch(orientation){
