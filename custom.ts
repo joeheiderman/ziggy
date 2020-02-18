@@ -81,7 +81,7 @@ namespace finch {
     let MAXIMUM_SPEED = 127
     let SPEED_CONVERSION_FACTOR = 0.45
     let BATT_FACTOR = 0.40
-    let NO_TICKS_ROTATION = 800
+    let NO_TICKS_ROTATION = 792
     let CONVERSION_FACTOR_MG_TO_MPS = 0.00980665 //convert mg to meters per second squared
 
     //SPI Pins
@@ -98,6 +98,7 @@ namespace finch {
     let rightEncoderOffset = 0
 
     let sensor_vals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];  //16 bytes
+    let last_sensor_read = 0
     readyToSend = false // to prevent sending or attempting to receive data until we have initialized the connection
 
 
@@ -130,18 +131,16 @@ namespace finch {
      *
      * @param cmdArray       array containing all values to send.
      * @param fillerVal      value to use as filler
-     * @return               16 return values from the write commands
      */
-    export function sendCommand(cmdArray: number[], fillerVal: number = 0xFF) : number[] {
+    export function sendCommand(cmdArray: number[], fillerVal: number = 0xFF) : void {
       if (cmdArray.length > 16) {
-        return [];
+        return
       } else if (cmdArray.length < 16) {
         for (let i = cmdArray.length; i < 16; i++) {
           cmdArray.push(fillerVal)
         }
       }
 
-      let results = []
       let timeout = 0
       while (!readyToSend && timeout < 25) {
           basic.pause(10)
@@ -154,18 +153,19 @@ namespace finch {
         pins.digitalWritePin(SLAVESELECT_PIN, 0)
         control.waitMicros(waitTime_1)
 
+        let results = []
         for (let i = 0; i < 15; i++) {
           results[i] = pins.spiWrite(cmdArray[i])
           control.waitMicros(waitTime_2)
         }
         results[15] = pins.spiWrite(cmdArray[15])
+        sensor_vals = results
+        last_sensor_read = input.runningTime()
 
         control.waitMicros(waitTime_1)
         pins.digitalWritePin(SLAVESELECT_PIN, 1)
         readyToSend = true
       }
-
-      return results
     }
 
     /**
@@ -402,9 +402,8 @@ namespace finch {
      * enc1 left, enc3 right, enc2 right, enc1 right, Filler Value]
      */
     export function getSensors(): void {
-        let sv = sendCommand([GET_WITH_OFFSET])
-        if (sv.length != 0) {
-          sensor_vals = sv
+        if (input.runningTime() - last_sensor_read > 10) { //if last read was more than 10 ms ago
+          sendCommand([GET_WITH_OFFSET])
         }
     }
 
