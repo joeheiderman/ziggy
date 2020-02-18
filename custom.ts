@@ -75,8 +75,8 @@ namespace finch {
     let RESET_ENCODERS_COMMAND = 0xD5
 
     //Differnet conversion factors
-    let CONVERSION_FACTOR_CM_TICKS = 50.95
-    let ANGLE_TICKS_FACTOR = 4.44
+    let CONVERSION_FACTOR_CM_TICKS = 49.7
+    let ANGLE_TICKS_FACTOR = 4.335
     let MINIMUM_SPEED = -127
     let MAXIMUM_SPEED = 127
     let SPEED_CONVERSION_FACTOR = 0.45
