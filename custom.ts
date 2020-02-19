@@ -80,7 +80,7 @@ namespace finch {
     let MINIMUM_SPEED = -127
     let MAXIMUM_SPEED = 127
     let SPEED_CONVERSION_FACTOR = 0.45
-    let BATT_FACTOR = 0.40
+    let BATT_FACTOR = 37.6
     let NO_TICKS_ROTATION = 792
     let CONVERSION_FACTOR_MG_TO_MPS = 0.00980665 //convert mg to meters per second squared
 
@@ -497,12 +497,12 @@ namespace finch {
 
     /**
      * Reads the value of the battery in milliVolts. You may start to see
-     * strange behavior when the value is below 4630 mV.
+     * strange behavior when the value is below 3276 mV.
      */
     //% weight=15 blockId="getBattery" block="Finch Battery"
     export function getBattery(): number {
         getSensors()
-        let return_val = BATT_FACTOR * (sensor_vals[8]) / 10
+        let return_val = BATT_FACTOR * sensor_vals[8]
         return Math.round(return_val)
     }
 
