@@ -94,9 +94,6 @@ namespace finch {
     let beakLEDG = 0
     let beakLEDB = 0
 
-    let leftEncoderOffset = 0
-    let rightEncoderOffset = 0
-
     let sensor_vals = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];  //16 bytes
     let last_sensor_read = 0
     readyToSend = false // to prevent sending or attempting to receive data until we have initialized the connection
@@ -122,6 +119,10 @@ namespace finch {
         //Reset the encoders which also notes down the current encoder value
         resetEncoders()
         //Clear or do something with neopixel LED
+
+        //Send one command to explicitly get sensor values. That way, the
+        // firmware knows that this is a MakeCode program.
+        sendCommand([GET_WITH_OFFSET])
     }
 
     /**
@@ -296,6 +297,8 @@ namespace finch {
 
         speed = Math.round(capToBounds(speed, MINIMUM_SPEED, MAXIMUM_SPEED) * SPEED_CONVERSION_FACTOR)
         distance = Math.round(distance * CONVERSION_FACTOR_CM_TICKS)
+        if (distance == 0) { return; } //ticks=0 is the motor command for continuous motion. Must exit early so that command is not sent.
+
         if (direction == MoveDir.Forward) {
             velocity = (0x80 | speed);
         }
@@ -322,11 +325,10 @@ namespace finch {
     export function setTurn(direction: RLDir, angle: number = 90, speed: number = 50): void {
         let r_speed = 0
         let l_speed = 0
-        let r_dist = 0
-        let l_dist = 0
         let positionControlFlag = 0;
-        l_dist = Math.round(ANGLE_TICKS_FACTOR * angle)
-        r_dist = Math.round(ANGLE_TICKS_FACTOR * angle)
+        const dist = Math.round(ANGLE_TICKS_FACTOR * angle)
+        if (dist == 0) { return; } //ticks=0 is the motor command for continuous motion. Must exit early so that command is not sent.
+
         speed = Math.round(capToBounds(speed, MINIMUM_SPEED, MAXIMUM_SPEED) * SPEED_CONVERSION_FACTOR)
 
         if (direction == RLDir.Left) {
@@ -337,7 +339,7 @@ namespace finch {
             r_speed = (0x7F & speed);
         }
 
-        sendMotor(l_speed, l_dist, r_speed, r_dist)
+        sendMotor(l_speed, dist, r_speed, dist)
         basic.pause(50)
         positionControlFlag = getPositionControlFlag()
         while (positionControlFlag == 1) {
@@ -391,7 +393,7 @@ namespace finch {
      */
     //% weight=24 blockId="stopMotors" block="Finch Stop"
     export function stopMotors(): void {
-        sendMotor(0, 1, 0, 1)
+        sendMotor(0, 0, 0, 0)
         stop()
     }
 
@@ -449,7 +451,7 @@ namespace finch {
         } else {
             return_val = (sensor_vals[6] & 0x7F)
         }
-        return_val = 100 - (return_val * 100 / 127)
+        return_val = 100 - ((return_val - 6) * 100 / 121)
         return Math.round(return_val)
     }
 
