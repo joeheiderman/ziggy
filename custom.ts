@@ -395,7 +395,6 @@ namespace finch {
     //% weight=24 blockId="stopMotors" block="Finch Stop"
     export function stopMotors(): void {
         sendMotor(0, 0, 0, 0)
-        stop()
     }
 
     /**
