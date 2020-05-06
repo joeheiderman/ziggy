@@ -77,9 +77,9 @@ namespace finch {
     //Differnet conversion factors
     let CONVERSION_FACTOR_CM_TICKS = 49.7
     let ANGLE_TICKS_FACTOR = 4.335
-    let MINIMUM_SPEED = -127
-    let MAXIMUM_SPEED = 127
-    let SPEED_CONVERSION_FACTOR = 0.45
+    let MINIMUM_SPEED = -100
+    let MAXIMUM_SPEED = 100
+    let SPEED_CONVERSION_FACTOR = 0.36
     let BATT_FACTOR = 37.6
     let NO_TICKS_ROTATION = 792
     let CONVERSION_FACTOR_MG_TO_MPS = 0.00980665 //convert mg to meters per second squared
@@ -290,13 +290,14 @@ namespace finch {
      */
     //% weight=27 blockId="setMove" block="Finch Move %direction| %distance|cm at %speed| \\%"
     //% speed.min=0 speed.max=100
+    //% distance.min=0 distance.max=50
     export function setMove(direction: MoveDir, distance: number = 10, speed: number = 50): void {
         let velocity = 0
         let tick_speed = 0
         let positionControlFlag = 0
 
         speed = Math.round(capToBounds(speed, MINIMUM_SPEED, MAXIMUM_SPEED) * SPEED_CONVERSION_FACTOR)
-        distance = Math.round(distance * CONVERSION_FACTOR_CM_TICKS)
+        distance = Math.round(capToBounds(distance, 0, 10000) * CONVERSION_FACTOR_CM_TICKS)
         if (distance == 0) { return; } //ticks=0 is the motor command for continuous motion. Must exit early so that command is not sent.
 
         if (direction == MoveDir.Forward) {
@@ -326,7 +327,7 @@ namespace finch {
         let r_speed = 0
         let l_speed = 0
         let positionControlFlag = 0;
-        const dist = Math.round(ANGLE_TICKS_FACTOR * angle)
+        const dist = Math.round(ANGLE_TICKS_FACTOR * capToBounds(angle, 0, 360000))
         if (dist == 0) { return; } //ticks=0 is the motor command for continuous motion. Must exit early so that command is not sent.
 
         speed = Math.round(capToBounds(speed, MINIMUM_SPEED, MAXIMUM_SPEED) * SPEED_CONVERSION_FACTOR)
