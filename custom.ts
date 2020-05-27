@@ -282,6 +282,27 @@ namespace finch {
     }
 
     /**
+     * convertSpeed - Takes a speed percent and converts it to the appropriate
+     * value to send to the finch.
+     *
+     * @param  speed     percent speed (-100 to 100)
+     * @return           raw speed value
+     */
+    export function convertSpeed(speed: number) {
+        let bounded = capToBounds(speed, MINIMUM_SPEED, MAXIMUM_SPEED)
+        let converted = Math.round(Math.abs(bounded) * SPEED_CONVERSION_FACTOR)
+        if (converted != 0 && converted < 3) { converted = 3 }
+
+        let raw = 0
+        if (speed >= 0) {
+          raw = (0x80 | converted)
+        } else {
+          raw = (0x7F & converted)
+        }
+        return raw
+    }
+
+    /**
      * Moves the Finch forward or back for a given distance at a given speed
      * (0-100%).
      * @param direction   Forward or Backward
@@ -296,15 +317,14 @@ namespace finch {
         let tick_speed = 0
         let positionControlFlag = 0
 
-        speed = Math.round(capToBounds(speed, MINIMUM_SPEED, MAXIMUM_SPEED) * SPEED_CONVERSION_FACTOR)
         distance = Math.round(capToBounds(distance, 0, 10000) * CONVERSION_FACTOR_CM_TICKS)
         if (distance == 0) { return; } //ticks=0 is the motor command for continuous motion. Must exit early so that command is not sent.
 
         if (direction == MoveDir.Forward) {
-            velocity = (0x80 | speed);
+            velocity = convertSpeed(speed);
         }
         else if (direction == MoveDir.Backward) {
-            velocity = (0x7F & speed);
+            velocity = convertSpeed(-speed);
         }
         sendMotor(velocity, distance, velocity, distance)
         basic.pause(50)
@@ -330,14 +350,12 @@ namespace finch {
         const dist = Math.round(ANGLE_TICKS_FACTOR * capToBounds(angle, 0, 360000))
         if (dist == 0) { return; } //ticks=0 is the motor command for continuous motion. Must exit early so that command is not sent.
 
-        speed = Math.round(capToBounds(speed, MINIMUM_SPEED, MAXIMUM_SPEED) * SPEED_CONVERSION_FACTOR)
-
         if (direction == RLDir.Left) {
-            l_speed = (0x7F & speed);
-            r_speed = (0x80 | speed);
+            l_speed = convertSpeed(-speed);
+            r_speed = convertSpeed(speed);
         } else {
-            l_speed = (0x80 | speed);
-            r_speed = (0x7F & speed);
+            l_speed = convertSpeed(speed);
+            r_speed = convertSpeed(-speed);
         }
 
         sendMotor(l_speed, dist, r_speed, dist)
@@ -360,32 +378,9 @@ namespace finch {
     //% r_speed.min=-100 r_speed.max=100
     export function startMotors(l_speed: number = 50, r_speed: number = 50): void {
         //convert
-        let l_velocity = 0
-        let r_velocity = 0
+        let l_velocity = convertSpeed(l_speed)
+        let r_velocity = convertSpeed(r_speed)
 
-        let l_tick_speed = 0
-        let r_tick_speed = 0
-
-
-        //Left Motor
-        l_speed = capToBounds(l_speed, MINIMUM_SPEED, MAXIMUM_SPEED)
-        l_tick_speed = Math.round(Math.abs(l_speed) * SPEED_CONVERSION_FACTOR)
-        if (l_speed > 0) {
-            l_velocity = (0x80 | l_tick_speed);
-        }
-        else {
-            l_velocity = (0x7F & l_tick_speed);
-        }
-
-        //Right Motor
-        r_speed = capToBounds(r_speed, MINIMUM_SPEED, MAXIMUM_SPEED)
-        r_tick_speed = Math.round(Math.abs(r_speed) * SPEED_CONVERSION_FACTOR)
-        if (r_speed >= 0) {
-            r_velocity = (0x80 | r_tick_speed);
-        }
-        else {
-            r_velocity = (0x7F & r_tick_speed);
-        }
         sendMotor(l_velocity, 0, r_velocity, 0)
     }
 
@@ -461,6 +456,7 @@ namespace finch {
     //% weight=20 blockId="resetEncoders" block="Finch Reset Encoders"
     export function resetEncoders(): void {
         sendCommand([RESET_ENCODERS_COMMAND])
+        basic.pause(100)
     }
 
     /**
