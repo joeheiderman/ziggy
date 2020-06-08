@@ -89,6 +89,8 @@ namespace finch {
     let MISO_PIN = DigitalPin.P14
     let SCK_PIN = DigitalPin.P13
     let SLAVESELECT_PIN = DigitalPin.P16
+	
+	let RESET_PIN = DigitalPin.P2
 
     let beakLEDR = 0
     let beakLEDG = 0
@@ -105,7 +107,13 @@ namespace finch {
      */
     //% weight=32 blockId="startFN" block="Start Finch"
     export function startFinch(): void {
+		//Buzzer pin
         pins.analogWritePin(AnalogPin.P0, 0)
+		//Reset pin , necesarry for resetting during a lock state and also important to pull this line low
+		pins.digitalWritePin(RESET_PIN, 1)
+        basic.pause(100);
+        pins.digitalWritePin(RESET_PIN, 0)
+		//Reset Pin
         //Wait to complete the bootloader routine
         basic.pause(waitTime_Start);                //To avoid the bootloader
         //Initiliaze the SPI with the respective pins with 1MHz clock
