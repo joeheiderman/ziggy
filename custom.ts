@@ -74,7 +74,7 @@ namespace finch {
     let GET_WITH_OFFSET = 0xD4
     let RESET_ENCODERS_COMMAND = 0xD5
 
-    //Differnet conversion factors
+    //Different conversion factors
     let CONVERSION_FACTOR_CM_TICKS = 49.7
     let ANGLE_TICKS_FACTOR = 4.335
     let MINIMUM_SPEED = -100
@@ -89,8 +89,7 @@ namespace finch {
     let MISO_PIN = DigitalPin.P14
     let SCK_PIN = DigitalPin.P13
     let SLAVESELECT_PIN = DigitalPin.P16
-	
-	let RESET_PIN = DigitalPin.P2
+    let RESET_PIN = DigitalPin.P2
 
     let beakLEDR = 0
     let beakLEDG = 0
@@ -107,13 +106,13 @@ namespace finch {
      */
     //% weight=32 blockId="startFN" block="Start Finch"
     export function startFinch(): void {
-		//Buzzer pin
+		    //Buzzer pin
         pins.analogWritePin(AnalogPin.P0, 0)
-		//Reset pin , necesarry for resetting during a lock state and also important to pull this line low
-		pins.digitalWritePin(RESET_PIN, 1)
+        //Reset pin, necessary for resetting during a lock state and also important to pull this line low
+        pins.digitalWritePin(RESET_PIN, 1)
         basic.pause(100);
         pins.digitalWritePin(RESET_PIN, 0)
-		//Reset Pin
+        //Reset Pin
         //Wait to complete the bootloader routine
         basic.pause(waitTime_Start);                //To avoid the bootloader
         //Initiliaze the SPI with the respective pins with 1MHz clock
@@ -430,14 +429,19 @@ namespace finch {
     //% weight=22 blockId="getLight" block="Finch %light| Light"
     export function getLight(light: RLDir): number {
         getSensors()
-        let return_val = 0
+        const R = beakLEDR * 100 / 255
+        const G = beakLEDG * 100 / 255
+        const B = beakLEDB * 100 / 255
+        let raw_val = 0
+        let correction = 0
         if (light == RLDir.Right) {
-            return_val = sensor_vals[5]
+            raw_val = sensor_vals[5]
+            correction = 6.40473070e-03*R + 1.41015162e-02*G + 5.05547817e-02*B + 3.98301391e-04*R*G + 4.41091223e-04*R*B + 6.40756862e-04*G*B + -4.76971242e-06*R*G*B
         } else {
-            return_val = sensor_vals[4]
+            raw_val = sensor_vals[4]
+            correction = 1.06871493e-02*R + 1.94526614e-02*G + 6.12409825e-02*B + 4.01343475e-04*R*G + 4.25761981e-04*R*B + 6.46091068e-04*G*B + -4.41056971e-06*R*G*B
         }
-        return_val = return_val * 100 / 255
-        return Math.round(return_val)
+        return Math.round( capToBounds((raw_val - correction), 0, 100) )
     }
 
     /**
