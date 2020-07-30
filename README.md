@@ -23,6 +23,29 @@ Sets the tri-color LED in the finch's beak to color specified by red, green, and
 finch.setBeak(85, 0, 100)
 ```
 
+## Finch Tail
+Sets one or all of the tri-color LEDs in the Finch tail to the color specified by red, green, and blue brightness values. The values range from 0% to 100%.
+``` 
+finch.setTail(TailPort.All, 0, 100, 0)
+```
+
+## Finch Move
+Moves the Finch forward or back for a given distance at a given speed (0-100%).
+``` 
+finch.setMove(MoveDir.Forward, 50, 50)
+```
+
+## Finch Turn
+Turns the Finch right or left a given angle at a given speed (0-100%).
+``` 
+finch.setTurn(RLDir.Right, 45, 50)
+```
+
+## Finch Wheels
+Sets the rotation speeds of the left and right Finch wheels to values from -100 to 100%.
+``` 
+finch.startMotors(50, 50)
+```
 
 
 ## License
