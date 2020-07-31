@@ -47,6 +47,65 @@ Sets the rotation speeds of the left and right Finch wheels to values from -100 
 finch.startMotors(50, 50)
 ```
 
+## Finch Stop
+Stops the Finch wheels.
+``` 
+finch.stopMotors()
+```
+
+## Finch Distance
+Returns the value of the Finch distance sensor in cm.
+``` 
+finch.getDistance()
+```
+
+## Finch Light
+Returns the value of the right or left Finch light sensor from 0 to 100.
+``` 
+finch.getLight(RLDir.Right)
+```
+
+## Finch Line
+Returns the value of the right or left Finch line tracking sensor from 0 to 100.
+``` 
+finch.getLine(RLDir.Right)
+```
+
+## Finch Reset Encoders
+Sets the value of the left and right encoders to zero.
+``` 
+finch.resetEncoders
+```
+
+## Finch Encoder
+Returns the number of rotations that the right or left wheel has turned.
+``` 
+finch.getEncoder(RLDir.Right)
+```
+
+## Finch Beak Up/Beak Down/Etc.
+Returns a Boolean value that indicates whether or not the Finch is in the selected position.
+``` 
+finch.getFinchOrientation(Orientation.BeakUp)
+```
+
+## Finch Compass
+Returns the value of the Finch compass in degrees.
+``` 
+finch.getFinchCompass()
+```
+
+## Finch Accelerometer/Magentometer
+Returns the value of the Finch accelerometer or magnetometer in the * x, y, or z direction.
+``` 
+finch.getFinchAM(AorM.Accelerometer, Dimension.X)
+```
+
+## Finch Battery
+Reads the value of the battery in milliVolts. You may start to see strange behavior when the value is below 3373 mV.
+``` 
+finch.getBattery()
+```
 
 ## License
 MIT License
