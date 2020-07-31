@@ -1,5 +1,7 @@
 # pxt-finch
-A library for the Finch robot in MakeCode
+A library for the Finch robot in MakeCode. This robot is available from BirdBrain Technologies [here](https://store.birdbraintechnologies.com/collections/featured-items/products/finch2). The blocks are described here, but a lot more information and activity ideas are available online [here](https://www.birdbraintechnologies.com/finch2/makecode).
+
+Every program must contain the **Start Finch** in the **on start** block. Then use the Finch blocks to make the Finch move and turn, to control the beak and tail lights, and to make sounds with the buzzer. The Finch also contains a number of sensors that you can use to program the Finch to interact with its environment.
 
 ```
 finch.startFinch()
