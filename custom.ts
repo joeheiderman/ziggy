@@ -340,6 +340,9 @@ namespace finch {
             positionControlFlag = getPositionControlFlag()
             basic.pause(30)
         }
+        //compensate for firmware bug
+        stopMotors()
+        basic.pause(100)
     }
     /**
      * Turns the Finch right or left a given angle at a given speed (0-100%).
@@ -372,6 +375,9 @@ namespace finch {
             positionControlFlag = getPositionControlFlag()
             basic.pause(30)
         }
+        //compensate for firmware bug
+        stopMotors()
+        basic.pause(100)
     }
 
     /**
