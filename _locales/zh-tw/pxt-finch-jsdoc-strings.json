@@ -1,4 +1,18 @@
 {
-  "finch.startFinch": "每個Finch程式都需要此方塊。",
-  "finch.getBattery": "以毫伏為單位讀取電池的值。 當值低於3373 mV時，可能出現奇怪的現象。"
+  "finch.startFinch": "每個Finch程序都需要此方塊。 將其放在啟動方塊中。",
+  "finch.setMove": "以特定的速度（0-100％）向前或向後移動Finch到特定的距離。",
+  "finch.setTurn": "以特定的速度（0-100％）向右或向左旋轉Finch到特定的距離。",
+  "finch.setBeak": "將Finch鳥嘴中的三色LED設置紅色，綠色和藍色到指定亮度值。 取值範圍由0％到100％。",
+  "finch.setTail": "將Finch尾巴中的三色LED設置紅色，綠色和藍色到指定亮度值。 取值範圍由0％到100％。",
+  "finch.startMotors": "將左右Finch輪的旋轉速度設置為-100到100％之間的值。",
+  "finch.stopMotors": "停止Finch輪。",
+  "finch.getDistance": "返回以厘米為單位的Finch距離感應器的值。",
+  "finch.getLight": "返回從左或右Finch光感應器檢測的值 (0-100)。",
+  "finch.getLine": "返回從左或右Finch追蹤感應器檢測的值 (0-100)。",
+  "finch.getEncoder": "返回右輪或左輪已經旋轉的次數。",
+  "finch.resetEncoders": "將左右編碼器的值設置為零。",
+  "finch.getFinchOrientation": "返回一個布爾值(True或False)，指示Finch是否處於選定位置。",
+  "finch.getFinchAM": "返回Finch加速度計或磁力計上的x，y或z方向值。",
+  "finch.getFinchCompass": "返回Finch指南針上的值。",
+  "finch.getBattery": "以毫伏(milliVolts)為單位讀取電池的值。 當該值低於3373 mV時，你可能會開始看到奇特的狀況。"
 }
