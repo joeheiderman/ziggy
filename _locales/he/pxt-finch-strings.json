@@ -1,14 +1,3 @@
 {
-  "finch.startFinch|block": "התחל יונק הדבש",
-  "finch.setTriLED|block": "Finch לד שלושה צבעים R %Red| G %Green| B %Blue| %port_num|",
-  "finch.setLED|block": "Finch לד %intensity| %port_num| \\%",
-  "finch.setPositionServo|block": "Finch לסרוו מיקום %angle| %port_num|",
-  "finch.setRotationServo|block": "Finch סרוו סיבובים %speed| %port_num| \\%",
-  "finch.getSensor|block": "Finch %sensorType| %port_num|",
-  "SensorType.Light|block": "אור",
-  "SensorType.Distance|block": "מרחק סיימ",
-  "SensorType.Dial|block": "חיוג",
-  "SensorType.Sound|block": "קול",
-  "SensorType.Other|block": "אחר",
   "finch.getBattery|block": "Finch סוללה"
 }

@@ -1,14 +1,4 @@
 {
   "finch.startFinch|block": "Start Finch",
-  "finch.setTriLED|block": "Finch Tri-LED %port_num| R %Red| G %Green| B %Blue|",
-  "finch.setLED|block": "Finch LED %port_num| %intensity| \\%",
-  "finch.setPositionServo|block": "Finch Positionsservo %port_num| %angle| °",
-  "finch.setRotationServo|block": "Finch Rotationsservo %port_num| %speed| \\%",
-  "finch.getSensor|block": "Finch %sensorType| %port_num|",
-  "SensorType.Light|block": "Lys",
-  "SensorType.Distance|block": "Afstand",
-  "SensorType.Dial|block": "Ring til",
-  "SensorType.Sound|block": "Lyd",
-  "SensorType.Other|block": "Andet",
   "finch.getBattery|block": "Finch Batteri"
 }

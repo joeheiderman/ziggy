@@ -1,14 +1,3 @@
 {
-  "finch.startFinch|block": "허밍버드 시작하기",
-  "finch.setTriLED|block": "Finch 삼색 LED %port_num| 빨강 %Red| 초록 %Green| 파랑 %Blue|",
-  "finch.setLED|block": "Finch LED %port_num| %intensity| \\%",
-  "finch.setPositionServo|block": "Finch 위치 제어 서보 %port_num| %angle| °",
-  "finch.setRotationServo|block": "Finch 회전속도 제어 서보 %port_num| %speed| \\%",
-  "finch.getSensor|block": "Finch %sensorType| %port_num|",
-  "SensorType.Light|block": "빛 센서",
-  "SensorType.Distance|block": "거리 센서",
-  "SensorType.Dial|block": "가변 저항",
-  "SensorType.Sound|block": "소리",
-  "SensorType.Other|block": "다른 센서",
   "finch.getBattery|block": "Finch 배터리"
 }
