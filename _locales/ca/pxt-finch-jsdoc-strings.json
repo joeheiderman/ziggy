@@ -1,4 +1,18 @@
 {
-  "finch.startFinch": "Tots els programes de Finch requereixen aquest bloc.",
-  "finch.getBattery": "Llegeix la càrrega de la bateria en milivolts. Quan el valor baixa de 3373 mV poden observar-se comportaments extranys."
+  "finch.startFinch": "Tots els programes del Finch necessiten aquest bloc. Posa'l al bloc d'inici.",
+  "finch.setMove": "Mou el Finch endavant o enrere una distància determinada i a la velocitat indicada (0-100%)",
+  "finch.setTurn": "Gira el Finch a la dreta o a l'esquerra un angle determinat i a la velocitat indicada (0-100%)",
+  "finch.setBeak": "Posa el LED tricolor del bec del Finch al color especificat pels valors de brillantor vermell (R), verd (G) i blau (B). Els valors van de 0% a 100%.",
+  "finch.setTail": "Posa el LED tricolor de la cua del Finch al color especificat pels valors de brillantor vermell (R), verd (G) i blau (B). Els valors van de 0% a 100%.",
+  "finch.startMotors": "Fixa les velocitats de rotació de les rodes esquerra i dreta del Finch a valors entre -100% i 100%.",
+  "finch.stopMotors": "Atura les rodes del Finch.",
+  "finch.getDistance": "Retorna el valor del sensor de distància del Finch en cm.",
+  "finch.getLight": "Retorna el valor del sensor de llum dret o esquerre, entre 0 i 100.",
+  "finch.getLine": "Retorna el valor del sensor de línies dret o esquerre, entre 0 i 100.",
+  "finch.getEncoder": "Retorna el nombre de voltes completes que la roda dreta o esquerra ha girat.",
+  "finch.resetEncoders": "Posa el valor dels comptadors de voltes dret i esquerre a zero.",
+  "finch.getFinchOrientation": "Retorna un valor cert o fals que indica si el Finch està en la posició seleccionada.",
+  "finch.getFinchAM": "Retorna el valor de l'acceleròmetre o magnetòmetre del Finch en l'eix x, y o z.",
+  "finch.getFinchCompass": "Retorna el valor de la brúixola del Finch en graus.",
+  "finch.getBattery": "Retorna la càrrega restant de la bateria en milivolts. Pot retornar valors inacurats quan el valor està per sota dels 3373 mV."
 }
