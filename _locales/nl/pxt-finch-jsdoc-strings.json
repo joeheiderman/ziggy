@@ -1,4 +1,18 @@
 {
-  "finch.startFinch": "Dit blok is vereist voor elk Finch-programma.",
+  "finch.startFinch": "Dit blok is vereist voor elk Finch-programma. Zet het in het bij opstarten blok.",
+  "finch.setMove": "Beweegt de Finch naar voren of naar achteren voor een bepaalde afstand in cm met een bepaalde snelheid (0-100%).",
+  "finch.setTurn": "Draait de Finch naar rechts of naar links onder een bepaalde hoek met een bepaalde snelheid (0-100%).",
+  "finch.setBeak": "Definieert de RGB LED kleur in de Finch-bek, die wordt gespecificeerd door de rode, groene en blauwe helderheidswaarden. De waarden variëren van 0% tot 100%.",
+  "finch.setTail": "Definieert de kleur van één of alle RGB LEDs in de Finch-staart, die wordt gespecificeerd door de rode, groene en blauwe helderheidswaarden. De waarden variëren van 0% tot 100%.",
+  "finch.startMotors": "Stelt de snelheden in van de linker en rechter Finch-wielen met waarden van -100 tot 100%.",
+  "finch.stopMotors": "Stopt de Finch-wielen.",
+  "finch.getDistance": "Leest de waarde van de Finch-afstandssensor in cm.",
+  "finch.getLight": "Leest de waarde van de rechter of linker Finch-lichtsensor van 0 tot 100.",
+  "finch.getLine": "Leest de waarde van de rechter of linker Finch-lijnsensor van 0 tot 100.",
+  "finch.getEncoder": "Leest het aantal rotaties dat het rechter- of linkerwiel heeft gedraaid.",
+  "finch.resetEncoders": "Herzet de linker en rechter encoders op nul.",
+  "finch.getFinchOrientation": "Leest de booleaanse waarde, die aangeeft of de Finch zich op de geselecteerde positie bevindt.",
+  "finch.getFinchAM": "Leest de waarde van de Finch-versnellingsmeter of -magnetometer in de x-, y- of z-richting.",
+  "finch.getFinchCompass": "Leest de waarde van het Finch-kompas in graden.",
   "finch.getBattery": "Leest de waarde van de batterij in milliVolts. Mogelijk begint u vreemd gedrag te zien als de waarde lager is dan 3373 mV."
 }

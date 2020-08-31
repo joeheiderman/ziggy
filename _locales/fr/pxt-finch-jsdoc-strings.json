@@ -1,4 +1,18 @@
 {
-  "finch.startFinch": "Ce bloc est nécessaire pour chaque programme Finch.",
+  "finch.startFinch": "Ce bloc est requis pour chaque programme Finch. Mettez-le dans le bloc de démarrage.",
+  "finch.setMove": "Déplace le Finch vers l'avant ou l'arrière sur une distance donnée à une vitesse donnée (0-100%).",
+  "finch.setTurn": "Tourne le pinson à droite ou à gauche d'un angle donné à une vitesse donnée (0-100%).",
+  "finch.setBeak": "Règle la LED tricolore du bec Finch sur la couleur spécifiée par les valeurs de luminosité rouge, verte et bleue. Les valeurs vont de 0% à 100%.",
+  "finch.setTail": "Définit une ou toutes les LED tricolores de la queue Finch sur la couleur spécifiée par les valeurs de luminosité rouge, verte et bleue. Les valeurs vont de 0% à 100%.",
+  "finch.startMotors": "Règle les vitesses de rotation des roues Finch gauche et droite sur des valeurs de -100 à 100%.",
+  "finch.stopMotors": "Arrête les roues Finch.",
+  "finch.getDistance": "Renvoie la valeur du capteur de distance Finch en cm.",
+  "finch.getLight": "Renvoie la valeur du capteur de lumière Finch droit ou gauche de 0 à 100.",
+  "finch.getLine": "Renvoie la valeur du capteur de suivi de ligne Finch droit ou gauche de 0 à 100.",
+  "finch.getEncoder": "Renvoie le nombre de rotations que la roue droite ou gauche a tournée.",
+  "finch.resetEncoders": "Définit la valeur des encodeurs gauche et droit sur zéro.",
+  "finch.getFinchOrientation": "Renvoie une valeur booléenne qui indique si le Finch est ou non dans la position sélectionnée.",
+  "finch.getFinchAM": "Renvoie la valeur de l'accéléromètre ou du magnétomètre Finch dans la direction x, y ou z.",
+  "finch.getFinchCompass": "Renvoie la valeur de la boussole Finch en degrés.",
   "finch.getBattery": "Lit la valeur de la batterie en milliVolts. Vous pouvez commencer à voir un comportement étrange lorsque la valeur est inférieure à 3373 mV."
 }

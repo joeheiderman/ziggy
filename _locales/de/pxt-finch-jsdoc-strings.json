@@ -1,4 +1,18 @@
 {
-  "finch.startFinch": "Dieser Block wird für jedes Finch-Programm benötigt",
-  "finch.getBattery": "Liest die Werte der Batterie in Millivolt. Ein Wert von unter 3373 mV kann zu Fehlverhalten der Geräte führen."
+  "finch.startFinch": "Dieser Block wird für jedes Finch-Programm benötigt. Füge ihn in den \"beim Start\"-Block ein.",
+  "finch.setMove": "Bewegt den Finch vorwärts oder rückwärts um eine vorgegebene Strecke in einer vorgegebenen Geschwindigkeit (0-100%).",
+  "finch.setTurn": "Dreht den Finch nach links oder rechts um einen vorgegebenen Winkel in einer vorgegebenen Geschwindigkeit (0-100%)",
+  "finch.setBeak": "Setzt die Dreifarben-LED im Schnabel des Finch auf die Farbe, die sich aus den Helligkeitswerten für rot, grün und blau ergibt. Diese Werte liegen zwischen 0% und 100%.",
+  "finch.setTail": "Setzt eine oder alle der Dreifarben-LEDs im Schwanz des Finch auf die Farbe, die sich aus den Helligkeitswerten für rot, grün und blau ergibt. Diese Werte liegen zwischen 0% und 100%.",
+  "finch.startMotors": "Setzt die Drehgeschwindigkeiten der linken und rechten Finch-Räder auf Werte zwischen -100 und 100%.",
+  "finch.stopMotors": "Stoppt die Finch-Räder.",
+  "finch.getDistance": "Gibt den Wert des Finch-Entfernungssensors in cm zurück. ",
+  "finch.getLight": "Gibt den Wert des linken oder rechten Finch-Lichtsensors zurück. Der Wert liegt zwischen 0 und 100. ",
+  "finch.getLine": "Gibt den Wert des linken oder rechten Linienverfolgungssensors am Finch zurück. Der Wert liegt zwischen 0 und 100. ",
+  "finch.getEncoder": "Gibt die Anzahl an Umdrehungen zurück, um die das linke oder rechte Rad gedreht wurde. ",
+  "finch.resetEncoders": "Setzt die Werte des linken und rechten Kodierers auf 0.",
+  "finch.getFinchOrientation": "Gibt einen Boole'schen Wert zurück, der angibt, ob sich der Finch in der ausgewählten Position befindet.",
+  "finch.getFinchAM": "Gibt den Wert des Finch-Beschleunigungs- oder Magnetsensors in x-, y- oder z-Richtung zurück.",
+  "finch.getFinchCompass": "Gibt den Wert des Finch-Kompasses in Grad zurück.",
+  "finch.getBattery": "Liest den Wert der Batterie in Millivolt (mV) aus. Liegt der Wert unter 3373 mV, kann das zu ungewöhlichem Verhalten führen."
 }

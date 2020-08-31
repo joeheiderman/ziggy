@@ -1,4 +1,18 @@
 {
-  "finch.startFinch": "Este bloco é necessário para todas as programações do Finch.",
-  "finch.getBattery": "Lê o valor da bateria em milivolts. Você pode começar a ver um comportamento estranho quando o valor estiver abaixo de 3373 mV."
+  "finch.startFinch": "Este bloco é obrigatório para programar o Finch. (Adicione-o no bloco para iniciar.)",
+  "finch.setMove": "Move o Finch para frente ou para trás por uma determinada distância a uma determinada velocidade (0-100%).",
+  "finch.setTurn": "Vire o Finch para a direita ou para a esquerda em um determinado ângulo em uma determinada velocidade (0-100%).",
+  "finch.setBeak": "Defina o LED tricolor no bico Finch para a cor especificada pelos valores de brilho red, green e blue. Os valores variam de 0% a 100%.",
+  "finch.setTail": "Defina um ou todos os LEDs coloridos na cauda do Finch para a cor especificada pelos valores de brilho red, green e blue. Os valores variam de 0% a 100%.",
+  "finch.startMotors": "Defina as velocidades de rotação das rodas do Finch esquerda e direita para valores de -100 a 100%.",
+  "finch.stopMotors": "Para as rodas do Finch.",
+  "finch.getDistance": "Retorna o valor do sensor de distância do Finch em cm.",
+  "finch.getLight": "Retorna o valor do sensor de luz do direito ou esquerdo do Finch de 0 a 100.",
+  "finch.getLine": "Retorna o valor do sensor de rastreamento da linha do direito ou esquerdo do Finch de 0 a 100.",
+  "finch.getEncoder": "Retorna o número de rotações que a roda direita ou esquerda girou.",
+  "finch.resetEncoders": "Define o valor do código esquerdo e direito para zero.",
+  "finch.getFinchOrientation": "Retorna um valor Boolean que indica se o Finch está ou não na posição selecionada.",
+  "finch.getFinchAM": "Retorna o valor do acelerômetro ou magnetômetro Finch na direção x, y ou z.",
+  "finch.getFinchCompass": "Retorna o valor da bússola do Finch em graus.",
+  "finch.getBattery": "Lê o valor da bateria em miliVolts. Você pode começar a ver um comportamento estranho quando o valor estiver abaixo de 3373 mV."
 }
