@@ -3,7 +3,7 @@
   "finch.setMove|block": "Finch Gehe %direction| %distance| cm mit %speed| \\%",
   "finch.setTurn|block": "Finch Drehe %direction| %angle| ° mit %speed|\\%",
   "finch.startMotors|block": "Finch Räder L %l_speed|\\% R %r_speed|\\%",
-  "finch.setBeak|block": "Finch Schnabel R (Slot1)  G %green|  B %blue| ",
+  "finch.setBeak|block": "Finch Schnabel R %red|  G %green|  B %blue| ",
   "finch.setTail|block": "Finch Schwanz %port| R %red|  G %green|  B %blue|",
   "finch.resetEncoders|block": "Finch Kodierer Zurücksetzen",
   "finch.getEncoder|block": "Finch %encoder| Kodierer",
@@ -25,6 +25,6 @@
   "finch.getFinchCompass|block": "Finch Kompass",
   "TailPort.All|block": "alles",
   "AorM.Accelerometer|block": "Beschleunigungssensor (m/s²)",
-  "AorM.Magnetometer|block": "Magnetsensor (μT)",  
+  "AorM.Magnetometer|block": "Magnetsensor (μT)",
   "finch.getBattery|block": "Finch Batterie"
 }
