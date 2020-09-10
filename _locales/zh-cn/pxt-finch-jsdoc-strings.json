@@ -1,4 +1,18 @@
 {
-  "finch.startFinch": "每个Finch程式都需要此方块。",
-  "finch.getBattery": "以毫伏为单位读取电池的值。当值低于3373 mV时，可能出现奇怪的现象。"
+  "finch.startFinch": "该积木块为Finch 编程的必选项。把它放进初始化的积木块中。",
+  "finch.setMove": "定距编程Finch前进或后退并设置速度为0-100% 的任意值。",
+  "finch.setTurn": "设置Finch以一个角度左转或右转并设置速度为0-100% 的任意值。",
+  "finch.setBeak": "设置Finch beak里三色led的亮度值。（范围为0% to 100%）",
+  "finch.setTail": "设置Finch beak里任意一颗或全部三色led的亮度值。（范围为0% to 100%）",
+  "finch.startMotors": "设置左轮和右轮的速度。（范围为 -100 to 100%）",
+  "finch.stopMotors": "刹车",
+  "finch.getDistance": "读取距离传感器的返回值。（单位：cm）",
+  "finch.getLight": "读取左侧或右侧光线传感器的光度值。（范围为0～100）",
+  "finch.getLine": "读取左侧或者右侧巡线传感器的数值。（范围为0～100）",
+  "finch.getEncoder": "读取左轮或者右轮的转数值。",
+  "finch.resetEncoders": "设置左右编码器的值为0。",
+  "finch.getFinchOrientation": "读取二进制变量的值，判断Finch 是否在选中的位置。",
+  "finch.getFinchAM": "读取加速度计或者磁力计的值并以X,Y,Z轴的形式体现。",
+  "finch.getFinchCompass": "读取指南针的度数值。",
+  "finch.getBattery": "读取电量值（毫伏特）。当该值低于3373 mV时，你可能会发现不正常工作的现象。"
 }
