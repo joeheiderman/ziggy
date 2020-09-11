@@ -1,7 +1,7 @@
 {
   "finch.startFinch|block": "Inicia Finch",
-  "finch.setMove|block": "Finch Mou-te %distance| cm cap %direction| a velocitat %speed| \\%",
-  "finch.setTurn|block": "Finch Gira %angle| ° cap a la %direction| a velocitat %speed| \\%",
+  "finch.setMove|block": "Finch Mou-te cap %direction| %distance| cm a velocitat %speed| \\%",
+  "finch.setTurn|block": "Finch Gira cap a la %direction| %angle| ° a velocitat %speed| \\%",
   "finch.startMotors|block": "Finch Posa les rodes a velocitat E %l_speed| \\% D %r_speed| \\%",
   "finch.setBeak|block": "Finch Encén el bec de color R %red|  G %green|  B %blue| ",
   "finch.setTail|block": "Finch Encén la cua de color %port| R %red|  G %green|  B %blue| ",

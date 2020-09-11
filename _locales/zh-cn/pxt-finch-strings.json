@@ -1,7 +1,7 @@
 {
   "finch.startFinch|block": "启动Finch",
-  "finch.setMove|block": "Finch 以%speed| \\% 移动 %direction| %distance| cm",
-  "finch.setTurn|block": "Finch 以%speed| \\% 转动 %direction| %angle| °",
+  "finch.setMove|block": "Finch 移动 %direction| %distance| cm 以%speed| \\%",
+  "finch.setTurn|block": "Finch 转动 %direction| %angle| ° 以%speed| \\%",
   "finch.startMotors|block": "Finch 左轮%l_speed| \\% 右轮%r_speed| \\%",
   "finch.setBeak|block": "Finch 鸟喙 R %red|  G %green|  B %blue|",
   "finch.setTail|block": "Finch 鸟尾%port| R %red|  G %green|  B %blue|",
@@ -25,6 +25,6 @@
   "finch.getFinchCompass|block": "Finch 指南针",
   "TailPort.All|block": "全部",
   "AorM.Accelerometer|block": "加速计 (m/s²)",
-  "AorM.Magnetometer|block": "磁力仪 (μT)",  
+  "AorM.Magnetometer|block": "磁力仪 (μT)",
   "finch.getBattery|block": "Finch 电池"
 }
