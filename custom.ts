@@ -115,7 +115,7 @@ namespace finch {
         //Reset Pin
         //Wait to complete the bootloader routine
         basic.pause(waitTime_Start);                //To avoid the bootloader
-        //Initiliaze the SPI with the respective pins with 1MHz clock
+        //Initialize the SPI with the respective pins with 1MHz clock
         pins.digitalWritePin(SLAVESELECT_PIN, 1)
         pins.spiPins(MOSI_PIN, MISO_PIN, SCK_PIN)
         pins.spiFormat(8, 0)
@@ -130,6 +130,8 @@ namespace finch {
         //Send one command to explicitly get sensor values. That way, the
         // firmware knows that this is a MakeCode program.
         sendCommand([GET_WITH_OFFSET])
+	// If a V2 micro:bit, turn off the speaker
+    	music.setBuiltInSpeakerEnabled(false)
     }
 
     /**
