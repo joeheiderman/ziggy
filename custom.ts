@@ -131,7 +131,7 @@ namespace finch {
         // firmware knows that this is a MakeCode program.
         sendCommand([GET_WITH_OFFSET])
 	// If a V2 micro:bit, turn off the speaker
-    	music.setBuiltInSpeakerEnabled(false)
+    	// music.setBuiltInSpeakerEnabled(false)
     }
 
     /**
