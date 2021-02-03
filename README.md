@@ -1,5 +1,5 @@
 # pxt-finch
-A library for the Finch robot in MakeCode. The Finch is a programmable robot that brings computer science to life by providing students from kindergarten to college a hands-on representation of their code. This [robot is available from BirdBrain Technologies](https://store.birdbraintechnologies.com/collections/featured-items/products/finch2). The blocks are described below, but a lot [more information and activity ideas are available online](https://www.birdbraintechnologies.com/finch2/makecode).
+A library for the Finch robot in MakeCode. The Finch is a programmable robot that brings computer science to life by providing students from kindergarten to college a hands-on representation of their code. [This robot is available from BirdBrain Technologies](https://store.birdbraintechnologies.com/collections/featured-items/products/finch2). The blocks are described below, but a lot [more information and activity ideas are available online](https://www.birdbraintechnologies.com/finch2/makecode).
 
 Every program must contain the **Start Finch** in the **on start** block. Then use the Finch blocks to make the Finch move and turn, to control the beak and tail lights, and to make sounds with the buzzer. The Finch also contains a number of sensors that you can use to program the Finch to interact with its environment.
 
