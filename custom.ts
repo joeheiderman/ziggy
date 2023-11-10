@@ -462,9 +462,9 @@ namespace finch {
         getSensors()
         let return_val = 0
         if (line == RLDir.Right) {
-            return_val = (sensor_vals[7] & 0x7F)
+            return_val = (sensor_vals[7])
         } else {
-            return_val = (sensor_vals[6] & 0x7F)
+            return_val = (sensor_vals[6])
         }
         return_val = 100 - ((return_val - 6) * 100 / 121)
         return Math.round(return_val)
